@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import './Navbar.css';
-import Avatar from '../../public/avatar-niccolas.png'
+import Avatar from '../assets/avatar-niccolas.png'
 
 const LINKS = [
   { label: 'Sobre', href: '#sobre' },

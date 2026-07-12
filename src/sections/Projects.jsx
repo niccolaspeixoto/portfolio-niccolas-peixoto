@@ -12,7 +12,7 @@ const PROJECTS = [
     repoUrl: '#',
     // Coloque o print em public/projects/ e aponte o caminho aqui.
     // Ex: image: '/projects/arena-pro-beach.jpg',
-    image:'../../public/projects/probeach-desktop.PNG',
+    image:'/Projects/probeach-desktop.png',
   },
   {
     name: 'Football Store CRUD',
@@ -21,7 +21,7 @@ const PROJECTS = [
     tech: ['React', 'Node.js', 'Prisma', 'PostgreSQL'],
     liveUrl: 'https://elite-boots-store.vercel.app/',
     repoUrl: '#',
-    image: '../../public/projects/desktop-crud.png',
+    image: '/Projects/desktop-crud.png',
   },
 ];
 
