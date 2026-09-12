@@ -1,0 +1,21 @@
+.titulo-linhas {
+  display: block;
+}
+
+.titulo-linhas__linha {
+  display: block;
+  overflow: hidden;
+  /* A máscara cortaria as descidas de g, p e y sem esta folga. */
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+
+/* A linha destacada recua — é o que quebra a simetria do bloco de título. */
+.titulo-linhas__linha--realce {
+  padding-left: clamp(20px, 6vw, 96px);
+}
+
+.titulo-linhas__interna {
+  display: block;
+  will-change: transform;
+}

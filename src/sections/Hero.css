@@ -1,157 +1,205 @@
 .hero {
   position: relative;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  padding: 140px 0 80px;
+  padding-top: clamp(124px, 17vh, 200px);
   overflow: hidden;
 }
 
-.hero__grid-bg {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 56px 56px;
-  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 20%, black 10%, transparent 75%);
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 20%, black 10%, transparent 75%);
-  z-index: 0;
+.hero__grade {
+  align-items: center;
+  row-gap: clamp(44px, 7vw, 72px);
 }
 
-.hero__inner {
+/* --------------------------------------------------------------------------
+   Foto — colunas 1 a 5 (≈40% da largura). O texto ocupa 6 das 12, deixando
+   a coluna 6 vazia como respiro. Nada aqui é meio a meio.
+   -------------------------------------------------------------------------- */
+.hero__foto-area {
+  grid-column: 1 / span 4;
+  /* Empurra a foto para baixo em relação ao título: o topo dos dois blocos
+     não se alinha de propósito. */
+  margin-top: clamp(0px, 3vw, 44px);
+}
+
+.hero__moldura {
+  position: relative;
+  isolation: isolate;
+}
+
+.hero__moldura img {
   position: relative;
   z-index: 1;
-  display: grid;
-  grid-template-columns: 1.05fr 0.85fr;
-  gap: 60px;
-  align-items: center;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: 50% 8%;
+  border-radius: 2px;
 }
 
-.hero__name {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(38px, 5.4vw, 64px);
-  letter-spacing: -0.03em;
-  line-height: 1.05;
-  margin-bottom: 10px;
-  background: linear-gradient(180deg, #ffffff 0%, #d4d4d8 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+/* Contorno terracota deslocado atrás da foto. */
+.hero__eco {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border: 1px solid var(--terra);
+  border-radius: 2px;
+  transform: translate(clamp(-22px, -2vw, -12px), clamp(12px, 2vw, 22px));
 }
 
-.hero__role {
-  font-family: var(--font-mono);
-  font-size: 15px;
-  color: var(--accent-bright);
-  margin-bottom: 22px;
+.hero__legenda {
+  margin-top: clamp(26px, 3.4vw, 38px);
+  padding-top: 12px;
+  border-top: 1px solid var(--linha);
+  max-width: 30ch;
 }
 
-.hero__pitch {
-  font-size: 17px;
-  line-height: 1.65;
-  color: var(--text-secondary);
-  max-width: 520px;
-  margin-bottom: 34px;
+/* --------------------------------------------------------------------------
+   Texto — colunas 6 a 12 (7 das 12). Com a foto em 4, a divisão fica perto
+   de 35/65 e a coluna 5 sobra como respiro.
+   -------------------------------------------------------------------------- */
+.hero__texto-area {
+  grid-column: 6 / -1;
 }
 
-.hero__actions {
+.hero__texto-area .d-hero {
+  margin-top: clamp(20px, 2.4vw, 30px);
+}
+
+.hero__lead {
+  margin-top: clamp(24px, 3vw, 38px);
+  max-width: 44ch;
+}
+
+.hero__acoes {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 44px;
+  gap: clamp(20px, 3vw, 36px);
+  flex-wrap: wrap;
+  margin-top: clamp(30px, 3.6vw, 44px);
 }
 
-.hero__stack {
+.hero__selos {
   display: flex;
   flex-wrap: wrap;
   gap: 10px 22px;
-  font-family: var(--font-mono);
-  font-size: 12.5px;
-  color: var(--text-muted);
+  margin-top: clamp(28px, 3.2vw, 40px);
 }
 
-.hero__stack span::before {
-  content: '/ ';
-  color: var(--border);
-}
-
-.hero__visual {
-  position: relative;
-}
-
-.hero__status-card {
-  position: absolute;
-  bottom: -26px;
-  left: -18px;
-  width: min(280px, 76%);
-  background: rgba(24, 24, 27, 0.85);
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 16px 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-  box-shadow: 0 20px 40px -18px rgba(0, 0, 0, 0.65);
-  z-index: 2;
-}
-
-.hero__status-row {
+.hero__selos li {
   display: flex;
   align-items: center;
-  gap: 9px;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--text-primary);
+  gap: 10px;
 }
 
-.hero__status-row--muted {
-  color: var(--text-muted);
-}
-
-.hero__status-dot {
-  width: 7px;
-  height: 7px;
+/* Ponto terracota separando os selos, no lugar de ícones de check. */
+.hero__selos li::before {
+  content: '';
+  width: 3px;
+  height: 3px;
   border-radius: 50%;
-  background: var(--success);
-  box-shadow: 0 0 10px rgba(52, 211, 153, 0.6);
-  flex-shrink: 0;
-  animation: pulse-dot 2.4s ease-in-out infinite;
+  background: var(--terra);
+  flex: none;
 }
 
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+/* --------------------------------------------------------------------------
+   Faixa dos três pilares
+   -------------------------------------------------------------------------- */
+.pilares {
+  margin-top: clamp(64px, 9vh, 120px);
+  border-top: 1px solid var(--linha);
 }
 
-@media (max-width: 900px) {
+/* Colunas de larguras diferentes de propósito. */
+.pilares__quadro {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr 1.22fr;
+}
+
+.pilar {
+  padding: clamp(26px, 3vw, 40px) clamp(20px, 2.4vw, 34px) clamp(30px, 3.4vw, 46px);
+  border-left: 1px solid var(--linha);
+}
+
+.pilar:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.pilar:last-child {
+  padding-right: 0;
+}
+
+.pilar__n {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: var(--terra-clara);
+  margin-bottom: 12px;
+}
+
+.pilar__titulo {
+  font-family: var(--display);
+  font-size: clamp(1.15rem, 1.7vw, 1.5rem);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--papel);
+  margin-bottom: 8px;
+}
+
+.pilar__texto {
+  max-width: 32ch;
+}
+
+/* --------------------------------------------------------------------------
+   Telas menores
+   -------------------------------------------------------------------------- */
+@media (max-width: 1080px) {
+  .hero__foto-area {
+    grid-column: 1 / span 4;
+  }
+  .hero__texto-area {
+    grid-column: 5 / -1;
+  }
+}
+
+@media (max-width: 860px) {
   .hero {
-    padding-top: 120px;
-    text-align: center;
+    padding-top: clamp(104px, 14vh, 140px);
   }
-  .hero__inner {
-    grid-template-columns: 1fr;
-    gap: 56px;
-  }
-  .hero__pitch {
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .hero__actions,
-  .hero__stack {
-    justify-content: center;
-  }
-  .hero__status-card {
-    left: auto;
-    transform: translateX(-50%);
-  }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .hero__status-dot {
-    animation: none;
+  /* No celular o título vem antes da foto — a promessa precisa aparecer
+     na primeira tela, não o retrato. */
+  .hero__texto-area,
+  .hero__foto-area {
+    grid-column: 1 / -1;
+  }
+
+  .hero__texto-area {
+    order: 1;
+  }
+
+  .hero__foto-area {
+    order: 2;
+    margin-top: 0;
+    max-width: 400px;
+  }
+
+  .pilares__quadro {
+    grid-template-columns: 1fr;
+  }
+
+  .pilar {
+    padding-inline: 0;
+    border-left: 0;
+    border-top: 1px solid var(--linha);
+    padding-block: 24px;
+  }
+
+  .pilar:first-child {
+    border-top: 0;
+    padding-top: 28px;
   }
 }

@@ -1,0 +1,401 @@
+/* ==========================================================================
+   Tokens, reset e primitivas.
+   Tudo que é usado por mais de uma seção mora aqui. O resto fica no CSS
+   da própria seção.
+   ========================================================================== */
+
+:root {
+  /* --- Superfícies: preto quente, nunca azulado --- */
+  --preto: #0d0d0d;
+  --preto-2: #121010;
+  --preto-3: #191513;
+  --preto-4: #221b17;
+
+  /* --- Linhas: sempre bege com alfa, nunca cinza --- */
+  --linha: rgba(232, 201, 168, 0.12);
+  --linha-forte: rgba(232, 201, 168, 0.28);
+
+  /* --- Identidade --- */
+  --terra: #c4501f;
+  --terra-clara: #e8763b;
+  --terra-escura: #8a3612;
+
+  /* --- Texto --- */
+  --papel: #f5f0ea;
+  --areia: #e8c9a8;
+  --apagado: rgba(245, 240, 234, 0.58);
+  --apagado-2: rgba(245, 240, 234, 0.36);
+
+  /* --- Tipografia --- */
+  --display: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
+  --sans: 'Geist Sans', system-ui, -apple-system, sans-serif;
+
+  /* Hierarquia deliberadamente exagerada entre título e corpo: o título do
+     hero é cerca de 4x o texto. Os tetos existem para o título caber em
+     três linhas na coluna dele — sem teto, ele quebra em cinco. */
+  --t-hero: clamp(2.35rem, 4.6vw, 4.1rem);
+  --t-secao: clamp(2rem, 4.2vw, 3.6rem);
+  --t-bloco: clamp(1.32rem, 2.2vw, 2rem);
+  --t-corpo: clamp(1rem, 1.05vw, 1.075rem);
+
+  /* --- Layout --- */
+  --larg: 1340px;
+  --gutter: clamp(20px, 5vw, 68px);
+
+  --suave: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--preto);
+  color: var(--papel);
+  font-family: var(--sans);
+  font-size: var(--t-corpo);
+  line-height: 1.65;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  /* Sem isto, os atributos width/height do <img> viram `height: 1365px` na
+     cascata e anulam qualquer aspect-ratio definido depois. */
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* As listas ordenadas do site já têm numeral próprio desenhado; o marcador
+   do navegador apareceria ao lado dele. */
+ul,
+ol {
+  list-style: none;
+}
+
+::selection {
+  background: var(--terra);
+  color: var(--papel);
+}
+
+:focus-visible {
+  outline: 2px solid var(--terra-clara);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Grão de filme. Dá textura de impresso ao preto chapado — sem isso o fundo
+   fica com aparência de tela, não de papel.
+   -------------------------------------------------------------------------- */
+.grao {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.4;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+/* --------------------------------------------------------------------------
+   Layout
+   -------------------------------------------------------------------------- */
+.quadro {
+  width: 100%;
+  max-width: var(--larg);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Grade de 12 colunas. As seções ocupam faixas desiguais dela de propósito —
+   nada aqui é 50/50. */
+.grade {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(16px, 2.2vw, 32px);
+}
+
+.faixa {
+  position: relative;
+  padding-block: clamp(96px, 13vw, 200px);
+}
+
+/* Fio de separação entre seções, alinhado à grade e não à borda da tela. */
+.fio {
+  height: 1px;
+  background: var(--linha);
+  border: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Tipografia
+   -------------------------------------------------------------------------- */
+.olho {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--areia);
+}
+
+.olho::before {
+  content: '';
+  width: clamp(24px, 4vw, 56px);
+  height: 1px;
+  background: var(--terra);
+  flex: none;
+}
+
+.olho--solto::before {
+  display: none;
+}
+
+.display {
+  font-family: var(--display);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.d-hero {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: var(--t-hero);
+  line-height: 0.93;
+  letter-spacing: -0.02em;
+}
+
+.d-secao {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: var(--t-secao);
+  line-height: 0.98;
+  letter-spacing: -0.018em;
+  text-wrap: balance;
+}
+
+.d-bloco {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: var(--t-bloco);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+/* A palavra em destaque do título: itálico + terracota. Um único recurso,
+   usado sempre igual, em vez de cores espalhadas. */
+.realce {
+  color: var(--terra-clara);
+  font-style: italic;
+}
+
+.lead {
+  font-size: clamp(1.02rem, 1.2vw, 1.18rem);
+  line-height: 1.62;
+  color: var(--apagado);
+  max-width: 46ch;
+}
+
+.miudo {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: var(--apagado-2);
+}
+
+/* Numeral grande e vazado usado como marcador editorial de item. */
+.numeral {
+  font-family: var(--display);
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--linha-forte);
+  user-select: none;
+}
+
+/* --------------------------------------------------------------------------
+   Botões
+   -------------------------------------------------------------------------- */
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  padding: 17px 30px;
+  border-radius: 2px;
+  white-space: nowrap;
+  transition: background 0.4s var(--suave), color 0.4s var(--suave),
+    border-color 0.4s var(--suave), transform 0.4s var(--suave);
+}
+
+.botao svg {
+  flex: none;
+  transition: transform 0.4s var(--suave);
+}
+
+.botao--cheio {
+  background: var(--terra);
+  color: var(--papel);
+}
+
+.botao--cheio:hover {
+  background: var(--terra-clara);
+  transform: translateY(-2px);
+}
+
+.botao--cheio:hover svg {
+  transform: translateX(3px);
+}
+
+.botao--linha {
+  border: 1px solid var(--linha-forte);
+  color: var(--papel);
+}
+
+.botao--linha:hover {
+  border-color: var(--areia);
+  background: rgba(232, 201, 168, 0.05);
+  transform: translateY(-2px);
+}
+
+/* Link de texto com risco que cresce a partir da esquerda. */
+.link-risco {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--areia);
+  padding-bottom: 3px;
+}
+
+.link-risco::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--terra-clara);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s var(--suave);
+}
+
+.link-risco:hover {
+  color: var(--terra-clara);
+}
+
+.link-risco:hover::after {
+  transform: scaleX(1);
+}
+
+.link-risco svg {
+  transition: transform 0.4s var(--suave);
+}
+
+.link-risco:hover svg {
+  transform: translate(2px, -2px);
+}
+
+/* --------------------------------------------------------------------------
+   Etiqueta de status (No ar / Em implantação)
+   -------------------------------------------------------------------------- */
+.etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.67rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--apagado);
+}
+
+.etiqueta::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--apagado-2);
+  flex: none;
+}
+
+.etiqueta--ativo {
+  color: var(--areia);
+}
+
+.etiqueta--ativo::before {
+  background: var(--terra-clara);
+  box-shadow: 0 0 0 3px rgba(232, 118, 59, 0.16);
+}
+
+/* --------------------------------------------------------------------------
+   Acessibilidade
+   -------------------------------------------------------------------------- */
+.pular {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 10000;
+  background: var(--terra);
+  color: var(--papel);
+  padding: 12px 20px;
+  font-size: 0.85rem;
+}
+
+.pular:focus {
+  left: 12px;
+  top: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

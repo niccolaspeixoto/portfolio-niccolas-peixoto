@@ -1,27 +1,36 @@
-import Navbar from './components/Navbar';
+import Nav from './components/Nav';
 import Hero from './sections/Hero';
-import About from './sections/About';
-import Skills from './sections/Skills';
-import Projects from './sections/Projects';
-import Process from './sections/Process';
-import Contact from './sections/Contact';
-import Footer from './components/Footer';
+import Problemas from './sections/Problemas';
+import Cases from './sections/Cases';
+import Projetos from './sections/Projetos';
+import Diferenciais from './sections/Diferenciais';
+import Processo from './sections/Processo';
+import Chamada from './sections/Chamada';
+import Rodape from './components/Rodape';
 
-function App() {
+export default function App() {
   return (
     <>
-      <Navbar />
-      <main>
+      <a href="#conteudo" className="pular">
+        Pular para o conteúdo
+      </a>
+
+      {/* Grão de filme sobre a página inteira. */}
+      <div className="grao" aria-hidden="true" />
+
+      <Nav />
+
+      <main id="conteudo">
         <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <Process />
-        <Contact />
+        <Problemas />
+        <Cases />
+        <Projetos />
+        <Diferenciais />
+        <Processo />
+        <Chamada />
       </main>
-      <Footer />
+
+      <Rodape />
     </>
   );
 }
-
-export default App;

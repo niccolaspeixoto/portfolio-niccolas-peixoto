@@ -1,0 +1,143 @@
+.rodape {
+  border-top: 1px solid var(--linha);
+  background: var(--preto-2);
+}
+
+.rodape__grade {
+  padding-block: clamp(56px, 7vw, 96px) clamp(40px, 5vw, 64px);
+  row-gap: clamp(36px, 5vw, 56px);
+  align-items: start;
+}
+
+/* Marca em 3 colunas, coluna 4 vazia como respiro, e as três colunas de
+   links dividem o resto. As de contato precisam de 3 colunas cada: com 2 o
+   e-mail transborda por cima da coluna seguinte. */
+.rodape__marca {
+  grid-column: 1 / span 3;
+}
+
+.rodape__nome {
+  display: block;
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  line-height: 1.1;
+  color: var(--papel);
+}
+
+.rodape__frase {
+  margin-top: 16px;
+  font-size: 0.92rem;
+  line-height: 1.62;
+  color: var(--apagado);
+  max-width: 34ch;
+}
+
+.rodape__coluna {
+  grid-column: span 3;
+  min-width: 0;
+}
+
+.rodape__coluna--secoes {
+  grid-column: 5 / span 2;
+}
+
+.rodape__titulo {
+  font-size: 0.63rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--terra-clara);
+  margin-bottom: 18px;
+}
+
+.rodape__coluna li + li {
+  margin-top: 12px;
+}
+
+.rodape__link {
+  display: inline-block;
+  font-size: 0.9rem;
+  color: var(--apagado);
+  transition: color 0.35s var(--suave);
+}
+
+.rodape__link:hover {
+  color: var(--papel);
+}
+
+.rodape__link--par {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rodape__link-rotulo {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--apagado-2);
+}
+
+.rodape__link-valor {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--areia);
+  /* O e-mail é o item mais longo do rodapé; sem isto ele estoura a coluna. */
+  overflow-wrap: anywhere;
+  transition: color 0.35s var(--suave);
+}
+
+.rodape__link--par:hover .rodape__link-valor {
+  color: var(--terra-clara);
+}
+
+/* --- Faixa final --- */
+.rodape__base {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-block: 22px 30px;
+  border-top: 1px solid var(--linha);
+}
+
+.rodape__topo {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: color 0.35s var(--suave);
+}
+
+.rodape__topo:hover {
+  color: var(--areia);
+}
+
+/* --------------------------------------------------------------------------
+   Telas menores
+   -------------------------------------------------------------------------- */
+@media (max-width: 1000px) {
+  .rodape__marca {
+    grid-column: 1 / -1;
+  }
+
+  .rodape__coluna--secoes {
+    grid-column: 1 / span 4;
+  }
+
+  .rodape__coluna {
+    grid-column: span 4;
+  }
+}
+
+@media (max-width: 620px) {
+  .rodape__coluna,
+  .rodape__coluna--secoes {
+    grid-column: 1 / -1;
+  }
+
+  .rodape__frase {
+    max-width: none;
+  }
+}

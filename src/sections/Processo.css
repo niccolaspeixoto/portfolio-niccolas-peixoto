@@ -1,0 +1,134 @@
+.processo {
+  background: var(--preto-2);
+  border-block: 1px solid var(--linha);
+}
+
+/* Largura em rem, não em ch: `ch` aqui seria medido pela fonte do container
+   (sans, ~17px) e não pelo serif de 57px do título, deixando a coluna
+   estreita demais. */
+.processo__cabecalho {
+  max-width: 30rem;
+  margin-bottom: clamp(56px, 7vw, 96px);
+}
+
+.processo__titulo {
+  margin-top: 20px;
+}
+
+/* --------------------------------------------------------------------------
+   Escada de etapas
+   -------------------------------------------------------------------------- */
+.processo__etapas {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: clamp(18px, 2.4vw, 36px);
+}
+
+.etapa {
+  border-top: 1px solid var(--linha);
+  padding-top: 22px;
+  position: relative;
+}
+
+/* Ponto terracota apoiado na linha do topo. */
+.etapa::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--terra);
+  transform: translateY(-50%);
+}
+
+/* O degrau: cada etapa começa mais abaixo que a anterior. */
+.processo__etapas .etapa:nth-child(2) {
+  margin-top: clamp(22px, 3vw, 44px);
+}
+
+.processo__etapas .etapa:nth-child(3) {
+  margin-top: clamp(44px, 6vw, 88px);
+}
+
+.processo__etapas .etapa:nth-child(4) {
+  margin-top: clamp(66px, 9vw, 132px);
+}
+
+.etapa__cabeca {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.etapa__n {
+  font-family: var(--display);
+  font-size: clamp(1.6rem, 2.6vw, 2.3rem);
+  line-height: 1;
+  color: var(--terra-clara);
+}
+
+.etapa__prazo {
+  font-size: 0.63rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--apagado-2);
+  text-align: right;
+}
+
+.etapa__titulo {
+  font-family: var(--display);
+  font-size: clamp(1.25rem, 1.9vw, 1.6rem);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: var(--papel);
+  margin-bottom: 12px;
+}
+
+.etapa__texto {
+  font-size: 0.92rem;
+  line-height: 1.62;
+  color: var(--apagado);
+}
+
+/* --------------------------------------------------------------------------
+   Telas menores
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .processo__etapas {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: clamp(34px, 5vw, 52px);
+  }
+
+  .processo__etapas .etapa:nth-child(2) {
+    margin-top: clamp(22px, 4vw, 44px);
+  }
+  .processo__etapas .etapa:nth-child(3) {
+    margin-top: 0;
+  }
+  .processo__etapas .etapa:nth-child(4) {
+    margin-top: clamp(22px, 4vw, 44px);
+  }
+}
+
+@media (max-width: 560px) {
+  .processo__cabecalho {
+    max-width: none;
+  }
+
+  .processo__etapas {
+    grid-template-columns: 1fr;
+    row-gap: 30px;
+  }
+
+  .processo__etapas .etapa:nth-child(2),
+  .processo__etapas .etapa:nth-child(3),
+  .processo__etapas .etapa:nth-child(4) {
+    margin-top: 0;
+  }
+}
