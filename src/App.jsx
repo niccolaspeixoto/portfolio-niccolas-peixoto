@@ -1,5 +1,6 @@
 import Nav from './components/Nav';
 import Hero from './sections/Hero';
+import Pilares from './sections/Pilares';
 import Problemas from './sections/Problemas';
 import Cases from './sections/Cases';
 import Projetos from './sections/Projetos';
@@ -15,13 +16,11 @@ export default function App() {
         Pular para o conteúdo
       </a>
 
-      {/* Grão de filme sobre a página inteira. */}
-      <div className="grao" aria-hidden="true" />
-
       <Nav />
 
       <main id="conteudo">
         <Hero />
+        <Pilares />
         <Problemas />
         <Cases />
         <Projetos />

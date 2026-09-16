@@ -9,7 +9,6 @@ export default function Projetos() {
       <div className="quadro">
         <div className="grade projetos__cabecalho">
           <Reveal className="projetos__cabecalho-titulo">
-            <p className="olho">{projetos.olho}</p>
             <h2 className="d-secao projetos__titulo">{projetos.titulo}</h2>
           </Reveal>
 

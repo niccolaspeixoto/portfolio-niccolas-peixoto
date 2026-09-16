@@ -1,3 +1,7 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
 /* ==========================================================================
    Tokens, reset e primitivas.
    Tudo que é usado por mais de uma seção mora aqui. O resto fica no CSS
@@ -27,15 +31,21 @@
   --apagado-2: rgba(245, 240, 234, 0.36);
 
   /* --- Tipografia --- */
-  --display: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
+  /* Uma família só, em duas vozes: Archivo no eixo expandido para display,
+     Geist para leitura. Misturar serif com sans era o tell mais óbvio daqui. */
+  --display: 'Archivo Variable', 'Archivo', Helvetica, Arial, sans-serif;
   --sans: 'Geist Sans', system-ui, -apple-system, sans-serif;
 
-  /* Hierarquia deliberadamente exagerada entre título e corpo: o título do
-     hero é cerca de 4x o texto. Os tetos existem para o título caber em
-     três linhas na coluna dele — sem teto, ele quebra em cinco. */
-  --t-hero: clamp(2.35rem, 4.6vw, 4.1rem);
-  --t-secao: clamp(2rem, 4.2vw, 3.6rem);
-  --t-bloco: clamp(1.32rem, 2.2vw, 2rem);
+  /* A voz de display vem da largura (font-stretch), não de uma segunda fonte. */
+  --largura-display: 118%;
+
+  /* Medido no navegador: em Archivo expandido caixa alta, a linha mais longa
+     ocupa cerca de 11,4x o font-size. Os tamanhos abaixo saem dessa conta,
+     com folga, para nenhuma linha estourar a máscara que corta as linhas.
+     Teto de 6rem do craft-floor respeitado. */
+  --t-hero: clamp(2rem, 5.6vw, 5.6rem);
+  --t-secao: clamp(1.9rem, 4.4vw, 3.8rem);
+  --t-bloco: clamp(1.3rem, 2vw, 1.9rem);
   --t-corpo: clamp(1rem, 1.05vw, 1.075rem);
 
   /* --- Layout --- */
@@ -43,6 +53,53 @@
   --gutter: clamp(20px, 5vw, 68px);
 
   --suave: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* --- Tokens semânticos do shadcn/MicroKit, mapeados para a paleta acima
+     em vez do cinza padrão — assim bg-primary, text-foreground, border-border
+     etc. já saem na identidade terracota/preto do site. --- */
+  --background: var(--preto);
+  --foreground: var(--papel);
+
+  --card: var(--preto-2);
+  --card-foreground: var(--papel);
+
+  --popover: var(--preto-2);
+  --popover-foreground: var(--papel);
+
+  --primary: var(--terra);
+  --primary-foreground: var(--papel);
+
+  --secondary: var(--preto-3);
+  --secondary-foreground: var(--papel);
+
+  --muted: var(--preto-3);
+  --muted-foreground: var(--apagado);
+
+  --accent: var(--terra-clara);
+  --accent-foreground: var(--preto);
+
+  --destructive: oklch(0.577 0.245 27.325);
+
+  --border: var(--linha);
+  --input: var(--linha-forte);
+  --ring: var(--terra-clara);
+
+  --chart-1: var(--terra);
+  --chart-2: var(--terra-clara);
+  --chart-3: var(--areia);
+  --chart-4: var(--terra-escura);
+  --chart-5: var(--apagado);
+
+  --radius: 0.625rem;
+
+  --sidebar: var(--preto-2);
+  --sidebar-foreground: var(--papel);
+  --sidebar-primary: var(--terra);
+  --sidebar-primary-foreground: var(--papel);
+  --sidebar-accent: var(--preto-3);
+  --sidebar-accent-foreground: var(--papel);
+  --sidebar-border: var(--linha);
+  --sidebar-ring: var(--terra-clara);
 }
 
 *,
@@ -111,20 +168,6 @@ ol {
 }
 
 /* --------------------------------------------------------------------------
-   Grão de filme. Dá textura de impresso ao preto chapado — sem isso o fundo
-   fica com aparência de tela, não de papel.
-   -------------------------------------------------------------------------- */
-.grao {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  pointer-events: none;
-  opacity: 0.4;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
-}
-
-/* --------------------------------------------------------------------------
    Layout
    -------------------------------------------------------------------------- */
 .quadro {
@@ -157,68 +200,41 @@ ol {
 /* --------------------------------------------------------------------------
    Tipografia
    -------------------------------------------------------------------------- */
-.olho {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  font-family: var(--sans);
-  font-size: 0.68rem;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--areia);
-}
-
-.olho::before {
-  content: '';
-  width: clamp(24px, 4vw, 56px);
-  height: 1px;
-  background: var(--terra);
-  flex: none;
-}
-
-.olho--solto::before {
-  display: none;
-}
-
-.display {
-  font-family: var(--display);
-  font-weight: 400;
-  letter-spacing: -0.015em;
-  text-wrap: balance;
-}
-
 .d-hero {
   font-family: var(--display);
-  font-weight: 400;
+  font-weight: 800;
+  font-stretch: var(--largura-display);
   font-size: var(--t-hero);
-  line-height: 0.93;
-  letter-spacing: -0.02em;
+  line-height: 0.88;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
 }
 
 .d-secao {
   font-family: var(--display);
-  font-weight: 400;
+  font-weight: 800;
+  font-stretch: var(--largura-display);
   font-size: var(--t-secao);
-  line-height: 0.98;
-  letter-spacing: -0.018em;
+  line-height: 0.9;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
   text-wrap: balance;
 }
 
 .d-bloco {
   font-family: var(--display);
-  font-weight: 400;
+  font-weight: 600;
+  font-stretch: 105%;
   font-size: var(--t-bloco);
-  line-height: 1.12;
-  letter-spacing: -0.01em;
+  line-height: 1.1;
+  letter-spacing: -0.022em;
   text-wrap: balance;
 }
 
-/* A palavra em destaque do título: itálico + terracota. Um único recurso,
-   usado sempre igual, em vez de cores espalhadas. */
+/* A palavra em destaque do título. O itálico saiu junto com o serif: agora o
+   destaque é só cor, que é o que sobrevive em maiúscula expandida. */
 .realce {
   color: var(--terra-clara);
-  font-style: italic;
 }
 
 .lead {
@@ -283,6 +299,52 @@ ol {
   transform: translateX(3px);
 }
 
+/* --------------------------------------------------------------------------
+   Holofote que segue o ponteiro dentro do botão.
+   A posição chega por --brilho-x / --brilho-y, escritas no pointermove.
+   -------------------------------------------------------------------------- */
+.botao--brilho {
+  position: relative;
+  /* Segura o z-index negativo do brilho dentro do próprio botão. */
+  isolation: isolate;
+  overflow: hidden;
+}
+
+/* z-index -1 pinta acima do fundo do botão e abaixo do texto, que é
+   exatamente onde o brilho precisa ficar. */
+.botao--brilho::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.32s var(--suave);
+  background: radial-gradient(
+    circle 130px at var(--brilho-x, 50%) var(--brilho-y, 50%),
+    color-mix(in srgb, var(--papel) 40%, transparent) 0%,
+    color-mix(in srgb, var(--areia) 34%, transparent) 36%,
+    transparent 72%
+  );
+}
+
+.botao--brilho:hover::before,
+.botao--brilho:focus-visible::before {
+  opacity: 1;
+}
+
+/* O preenchimento fica no tom base: se o fundo inteiro clareasse no hover,
+   como no botão cheio comum, o holofote não teria contra o que aparecer. */
+.botao--cheio.botao--brilho:hover {
+  background: var(--terra);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .botao--brilho::before {
+    transition: none;
+  }
+}
+
 .botao--linha {
   border: 1px solid var(--linha-forte);
   color: var(--papel);
@@ -342,6 +404,7 @@ ol {
   display: inline-flex;
   align-items: center;
   gap: 7px;
+  white-space: nowrap;
   font-size: 0.67rem;
   font-weight: 500;
   letter-spacing: 0.16em;
@@ -397,5 +460,63 @@ ol {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: var(--sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* Sem bloco .dark: o site não alterna tema — os tokens acima já são a
+   única paleta, sempre escura. */
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
   }
 }

@@ -40,15 +40,17 @@ export const navegacao = [
 
 // --- 1. Hero -------------------------------------------------------------
 export const hero = {
-  olho: 'Desenvolvimento de software para negócios locais',
-  // O título é montado em pedaços para destacar uma parte em terracota.
+  /* O título é montado em pedaços para destacar uma parte em terracota.
+     Três batidas curtas em vez de uma frase longa: em display expandido,
+     linha comprida obriga a diminuir a fonte e o impacto morre junto. */
   titulo: [
-    { texto: 'Seu negócio atendendo melhor,' },
-    { texto: 'vendendo mais', destaque: true },
-    { texto: 'e perdendo menos tempo.' },
+    { texto: 'Atender melhor.' },
+    { texto: 'Vender mais.', destaque: true },
+    { texto: 'Poupar tempo.' },
   ],
+  // Teto de 20 palavras: o hero é um momento, não um parágrafo.
   texto:
-    'Eu construo e cuido da parte técnica do seu negócio para você poder cuidar do que faz ele girar. Do diagnóstico à manutenção, falando direto comigo.',
+    'Eu cuido da parte técnica do seu negócio para você cuidar do que faz ele girar.',
   cta: 'Falar no WhatsApp',
   ctaSecundario: { rotulo: 'Ver projetos', href: '#projetos' },
   selos: [
@@ -56,7 +58,7 @@ export const hero = {
     'Sem intermediário',
     'Manutenção inclusa',
   ],
-  legendaFoto: 'Niccolas Peixoto — quem conversa com você é quem constrói.',
+  legendaFoto: 'Niccolas Peixoto. Quem conversa com você é quem constrói.',
   // Os três pilares viram uma faixa no pé do hero, como índice de revista.
   pilares: [
     {
@@ -79,7 +81,6 @@ export const hero = {
 
 // --- 2. Onde eu resolvo o problema ---------------------------------------
 export const problemas = {
-  olho: 'Onde eu entro',
   titulo: 'Três coisas que custam caro todo mês',
   texto:
     'Nenhuma delas parece urgente no dia a dia. Somadas no fim do ano, são clientes que foram para o concorrente e horas que você nunca recupera.',
@@ -103,7 +104,7 @@ export const problemas = {
     {
       n: '03',
       dor: 'Caderno, planilha e print de conversa fazendo o trabalho de um sistema.',
-      custo: 'O controle do negócio mora na sua cabeça — e some junto com ela num dia corrido.',
+      custo: 'O controle do negócio mora na sua cabeça, e some junto com ela num dia corrido.',
       solucao: 'Sistema sob medida',
       comoResolve:
         'Cadastro, agenda, estoque, financeiro. Construído em cima do jeito que o seu negócio já funciona, não do jeito que um software genérico exige.',
@@ -111,11 +112,38 @@ export const problemas = {
   ],
 };
 
+/* Demonstração do agente de IA, usada dentro do primeiro problema.
+   As respostas mostram o COMPORTAMENTO do agente (responde na hora, puxa o
+   próximo passo). Nenhuma inventa preço, horário ou endereço de cliente real:
+   inventar número aqui seria mentir na própria demonstração. */
+export const demoAgente = {
+  rotulo: 'Exemplo de atendimento',
+  titulo: 'Toque numa pergunta e veja a resposta',
+  horario: '22:14',
+  perguntas: [
+    {
+      pergunta: 'Vocês atendem domingo?',
+      resposta:
+        'Atendemos sim, das 9h às 14h. Quer que eu já veja um horário pra você?',
+    },
+    {
+      pergunta: 'Quanto custa?',
+      resposta:
+        'Depende do serviço. Me diz qual você quer que eu passo o valor e quanto tempo leva.',
+    },
+    {
+      pergunta: 'Onde vocês ficam?',
+      resposta:
+        'Te mando a localização agora. Prefere o mapa ou o endereço escrito?',
+    },
+  ],
+  reiniciar: 'Começar de novo',
+};
+
 // --- 3. Prova social -----------------------------------------------------
 // `resultado` descreve o que o projeto entrega. Troque por número real assim
 // que o cliente te passar um. `depoimento` fica null até existir citação real.
 export const cases = {
-  olho: 'Prova real',
   titulo: 'O que mudou na prática',
   texto:
     'Cada projeto começou com um problema concreto de um negócio que já existia. Abaixo, o que estava travando e o que foi construído para destravar.',
@@ -127,7 +155,7 @@ export const cases = {
       site: 'arenaprobeach.com',
       url: 'https://arenaprobeach.com/',
       problema:
-        'A arena existia só no Instagram. Quem queria reservar quadra precisava perguntar preço, horário, endereço e o que tinha na lanchonete — uma conversa inteira antes de qualquer reserva.',
+        'A arena existia só no Instagram. Quem queria reservar quadra precisava perguntar preço, horário, endereço e o que tinha na lanchonete: uma conversa inteira antes de qualquer reserva.',
       solucao:
         'Site institucional com quadras, aulas, cardápio, diferenciais e localização, e um botão de reserva que já abre o WhatsApp.',
       resultado:
@@ -168,7 +196,6 @@ export const cases = {
 // --- 4. Projetos ---------------------------------------------------------
 // `tamanho` controla a altura do card na galeria: 'alto' | 'medio' | 'baixo'.
 export const projetos = {
-  olho: 'Vitrine',
   titulo: 'Projetos construídos',
   texto:
     'Trabalhos entregues do primeiro rascunho ao site no ar, incluindo hospedagem, domínio e a manutenção que vem depois.',
@@ -214,7 +241,6 @@ export const projetos = {
 
 // --- 5. Diferenciais -----------------------------------------------------
 export const diferenciais = {
-  olho: 'Por que comigo',
   titulo: 'O que uma agência grande não te dá',
   itens: [
     {
@@ -242,7 +268,6 @@ export const diferenciais = {
 
 // --- 6. Como funciona ----------------------------------------------------
 export const processo = {
-  olho: 'Como funciona',
   titulo: 'Do primeiro oi ao site no ar',
   itens: [
     {
@@ -278,14 +303,13 @@ export const processo = {
 
 // --- 7. Chamada final ----------------------------------------------------
 export const chamada = {
-  olho: 'Próximo passo',
   titulo: [
-    { texto: 'Seu negócio pode começar a' },
+    { texto: 'Seu negócio pode' },
     { texto: 'atender melhor', destaque: true },
-    { texto: 'ainda esta semana.' },
+    { texto: 'já esta semana.' },
   ],
   texto:
-    'Me conte em uma mensagem o que está travando hoje. Eu respondo com um diagnóstico honesto — inclusive se a resposta for que você ainda não precisa contratar nada.',
+    'Me conte em uma mensagem o que está travando hoje. Eu respondo com um diagnóstico honesto, inclusive se a resposta for que você ainda não precisa contratar nada.',
   cta: 'Falar no WhatsApp',
 };
 

@@ -1,91 +1,74 @@
 .diferenciais__grade {
-  row-gap: clamp(40px, 6vw, 64px);
-  align-items: start;
+  row-gap: clamp(36px, 5vw, 56px);
 }
 
 .diferenciais__titulo-area {
-  grid-column: 1 / span 4;
+  grid-column: 1 / span 5;
 }
 
 .diferenciais__fixo {
   position: sticky;
-  top: clamp(110px, 16vh, 160px);
+  top: clamp(96px, 13vh, 132px);
 }
 
-.diferenciais__titulo {
-  margin-top: 20px;
+/* A coluna do título é estreita, então esta seção usa uma escala menor que
+   as outras. Na medida geral, uma palavra só já estourava a coluna. */
+.diferenciais__fixo h2 {
+  font-size: clamp(1.55rem, 2.9vw, 2.5rem);
 }
 
-/* --------------------------------------------------------------------------
-   Os pontos. Duas colunas, sem caixa e sem ícone — só um fio curto, o título
-   e o texto. A segunda coluna desce um pouco para quebrar o alinhamento.
-   -------------------------------------------------------------------------- */
+/* Coluna única e larga: cada ponto é uma entrada de lista, não um cartão. */
 .diferenciais__lista {
   grid-column: 6 / -1;
+}
+
+.diferencial {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: clamp(24px, 3vw, 48px);
-  row-gap: clamp(40px, 5vw, 70px);
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(8px, 2.4vw, 40px);
+  padding-block: clamp(24px, 3vw, 36px);
+  border-top: 1px solid var(--linha);
 }
 
-.diferencial:nth-child(even) {
-  margin-top: clamp(28px, 4vw, 64px);
-}
-
-.diferencial__marca {
-  display: block;
-  width: 28px;
-  height: 1px;
-  background: var(--terra);
-  margin-bottom: 20px;
+.diferencial:first-child {
+  padding-top: 0;
+  border-top: 0;
 }
 
 .diferencial__titulo {
   font-family: var(--display);
-  font-size: clamp(1.28rem, 2vw, 1.72rem);
-  font-weight: 400;
-  line-height: 1.12;
-  letter-spacing: -0.012em;
+  font-weight: 600;
+  font-stretch: 106%;
+  font-size: clamp(1.08rem, 1.5vw, 1.35rem);
+  line-height: 1.16;
+  letter-spacing: -0.02em;
   color: var(--papel);
-  margin-bottom: 12px;
   text-wrap: balance;
 }
 
 .diferencial__texto {
-  font-size: 0.93rem;
-  line-height: 1.64;
   color: var(--apagado);
-  max-width: 36ch;
+  font-size: 0.95rem;
+  line-height: 1.64;
+  max-width: 48ch;
 }
 
-/* --------------------------------------------------------------------------
-   Telas menores
-   -------------------------------------------------------------------------- */
-@media (max-width: 1080px) {
-  .diferenciais__titulo-area {
+/* O par titulo/texto colapsa antes do resto: entre 900 e 1100 a coluna do
+   titulo ficava com menos de 220px e quebrava uma palavra por linha. */
+@media (max-width: 1100px) {
+  .diferencial {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 900px) {
+  .diferenciais__titulo-area,
+  .diferenciais__lista {
     grid-column: 1 / -1;
   }
 
   .diferenciais__fixo {
     position: static;
-  }
-
-  .diferenciais__lista {
-    grid-column: 1 / -1;
-  }
-}
-
-@media (max-width: 640px) {
-  .diferenciais__lista {
-    grid-template-columns: 1fr;
-    row-gap: 38px;
-  }
-
-  .diferencial:nth-child(even) {
-    margin-top: 0;
-  }
-
-  .diferencial__texto {
-    max-width: none;
   }
 }

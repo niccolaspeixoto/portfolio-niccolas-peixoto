@@ -15,7 +15,10 @@
   padding-left: clamp(20px, 6vw, 96px);
 }
 
+/* Cada entrada da lista é uma linha e só. Sem isto, uma linha comprida quebra
+   dentro da máscara e sai picotada na tela, em vez de falhar de forma óbvia. */
 .titulo-linhas__interna {
   display: block;
+  white-space: nowrap;
   will-change: transform;
 }

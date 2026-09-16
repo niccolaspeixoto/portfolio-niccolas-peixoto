@@ -1,73 +1,61 @@
 .hero {
   position: relative;
-  padding-top: clamp(124px, 17vh, 200px);
+  isolation: isolate;
+  display: flex;
+  align-items: flex-end;
+  /* dvh e não vh: no iOS a barra de endereço muda a altura e o hero pula. */
+  min-height: 100dvh;
+  padding-top: clamp(112px, 15vh, 168px);
+  padding-bottom: clamp(56px, 8vh, 104px);
   overflow: hidden;
 }
 
-.hero__grade {
-  align-items: center;
-  row-gap: clamp(44px, 7vw, 72px);
-}
-
 /* --------------------------------------------------------------------------
-   Foto — colunas 1 a 5 (≈40% da largura). O texto ocupa 6 das 12, deixando
-   a coluna 6 vazia como respiro. Nada aqui é meio a meio.
+   Foto. Sai do quadro de conteúdo e encosta na borda direita da janela.
    -------------------------------------------------------------------------- */
-.hero__foto-area {
-  grid-column: 1 / span 4;
-  /* Empurra a foto para baixo em relação ao título: o topo dos dois blocos
-     não se alinha de propósito. */
-  margin-top: clamp(0px, 3vw, 44px);
+.hero__foto {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: clamp(420px, 52vw, 860px);
 }
 
-.hero__moldura {
-  position: relative;
-  isolation: isolate;
-}
-
-.hero__moldura img {
-  position: relative;
-  z-index: 1;
+.hero__foto img {
   width: 100%;
-  height: auto;
-  aspect-ratio: 4 / 5;
+  height: 100%;
   object-fit: cover;
-  object-position: 50% 8%;
-  border-radius: 2px;
+  object-position: 62% 12%;
 }
 
-/* Contorno terracota deslocado atrás da foto. */
-.hero__eco {
+/* O véu nasce opaco na esquerda e some antes do meio da foto: o rosto fica
+   limpo, o título ganha fundo. */
+.hero__veu {
   position: absolute;
   inset: 0;
-  z-index: 0;
-  border: 1px solid var(--terra);
-  border-radius: 2px;
-  transform: translate(clamp(-22px, -2vw, -12px), clamp(12px, 2vw, 22px));
-}
-
-.hero__legenda {
-  margin-top: clamp(26px, 3.4vw, 38px);
-  padding-top: 12px;
-  border-top: 1px solid var(--linha);
-  max-width: 30ch;
+  background: linear-gradient(
+    100deg,
+    var(--preto) 6%,
+    color-mix(in srgb, var(--preto) 72%, transparent) 34%,
+    transparent 62%
+  );
 }
 
 /* --------------------------------------------------------------------------
-   Texto — colunas 6 a 12 (7 das 12). Com a foto em 4, a divisão fica perto
-   de 35/65 e a coluna 5 sobra como respiro.
+   Texto
    -------------------------------------------------------------------------- */
-.hero__texto-area {
-  grid-column: 6 / -1;
-}
-
-.hero__texto-area .d-hero {
-  margin-top: clamp(20px, 2.4vw, 30px);
+/* O título usa a largura inteira do quadro e avança por cima do lado escuro
+   da foto. Confinar ele ao espaço livre à esquerda obrigava a derrubar a
+   fonte para ~3,9rem e o impacto morria. */
+.hero__texto {
+  max-width: 100%;
 }
 
 .hero__lead {
-  margin-top: clamp(24px, 3vw, 38px);
-  max-width: 44ch;
+  margin-top: clamp(26px, 3.2vw, 40px);
+  max-width: 40ch;
+  color: var(--papel);
 }
 
 .hero__acoes {
@@ -78,128 +66,49 @@
   margin-top: clamp(30px, 3.6vw, 44px);
 }
 
-.hero__selos {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 22px;
-  margin-top: clamp(28px, 3.2vw, 40px);
-}
-
-.hero__selos li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* Ponto terracota separando os selos, no lugar de ícones de check. */
-.hero__selos li::before {
-  content: '';
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: var(--terra);
-  flex: none;
-}
-
-/* --------------------------------------------------------------------------
-   Faixa dos três pilares
-   -------------------------------------------------------------------------- */
-.pilares {
-  margin-top: clamp(64px, 9vh, 120px);
+.hero__legenda {
+  margin-top: clamp(40px, 5vw, 64px);
+  padding-top: 12px;
   border-top: 1px solid var(--linha);
-}
-
-/* Colunas de larguras diferentes de propósito. */
-.pilares__quadro {
-  display: grid;
-  grid-template-columns: 1.05fr 1fr 1.22fr;
-}
-
-.pilar {
-  padding: clamp(26px, 3vw, 40px) clamp(20px, 2.4vw, 34px) clamp(30px, 3.4vw, 46px);
-  border-left: 1px solid var(--linha);
-}
-
-.pilar:first-child {
-  padding-left: 0;
-  border-left: 0;
-}
-
-.pilar:last-child {
-  padding-right: 0;
-}
-
-.pilar__n {
-  display: block;
-  font-family: var(--sans);
-  font-size: 0.66rem;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  color: var(--terra-clara);
-  margin-bottom: 12px;
-}
-
-.pilar__titulo {
-  font-family: var(--display);
-  font-size: clamp(1.15rem, 1.7vw, 1.5rem);
-  font-weight: 400;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-  color: var(--papel);
-  margin-bottom: 8px;
-}
-
-.pilar__texto {
-  max-width: 32ch;
+  max-width: 34ch;
 }
 
 /* --------------------------------------------------------------------------
-   Telas menores
+   Telas menores. A foto deixa de ser lateral e vira fundo da seção inteira,
+   com o véu cobrindo mais para o texto continuar legível por cima.
    -------------------------------------------------------------------------- */
-@media (max-width: 1080px) {
-  .hero__foto-area {
-    grid-column: 1 / span 4;
-  }
-  .hero__texto-area {
-    grid-column: 5 / -1;
-  }
-}
-
-@media (max-width: 860px) {
+@media (max-width: 900px) {
   .hero {
-    padding-top: clamp(104px, 14vh, 140px);
+    min-height: auto;
+    padding-top: clamp(132px, 22vh, 180px);
+    padding-bottom: clamp(48px, 9vw, 72px);
   }
 
-  /* No celular o título vem antes da foto — a promessa precisa aparecer
-     na primeira tela, não o retrato. */
-  .hero__texto-area,
-  .hero__foto-area {
-    grid-column: 1 / -1;
+  .hero__foto {
+    width: 100%;
   }
 
-  .hero__texto-area {
-    order: 1;
+  .hero__foto img {
+    object-position: 58% 10%;
   }
 
-  .hero__foto-area {
-    order: 2;
-    margin-top: 0;
-    max-width: 400px;
+  /* No celular o texto passa por cima do rosto inteiro, então o véu precisa
+     ser bem mais fechado do que no desktop. */
+  .hero__veu {
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--preto) 46%, transparent) 0%,
+      color-mix(in srgb, var(--preto) 88%, transparent) 30%,
+      var(--preto) 62%
+    );
   }
 
-  .pilares__quadro {
-    grid-template-columns: 1fr;
+  /* Sem gutter grande, a inclinação em vw é outra. */
+  .hero__texto {
+    --t-hero: 7.6vw;
   }
 
-  .pilar {
-    padding-inline: 0;
-    border-left: 0;
-    border-top: 1px solid var(--linha);
-    padding-block: 24px;
-  }
-
-  .pilar:first-child {
-    border-top: 0;
-    padding-top: 28px;
+  .hero__lead {
+    max-width: 34ch;
   }
 }

@@ -1,188 +1,144 @@
-/* Fundo levemente mais quente que o preto base, para separar a seção sem
-   desenhar uma caixa. */
 .cases {
-  background: var(--preto-2);
-  border-block: 1px solid var(--linha);
+  overflow: hidden;
 }
 
 .cases__cabecalho {
-  margin-bottom: clamp(56px, 7vw, 100px);
+  margin-bottom: clamp(44px, 6vw, 72px);
 }
 
-/* Cabeçalho recuado: começa na coluna 4, não na margem. */
 .cases__cabecalho-texto {
-  grid-column: 4 / span 7;
-}
-
-.cases__titulo {
-  margin-top: 20px;
+  grid-column: 1 / span 8;
 }
 
 .cases__lead {
-  margin-top: 22px;
+  margin-top: clamp(18px, 2.2vw, 28px);
   max-width: 52ch;
 }
 
 /* --------------------------------------------------------------------------
-   Um caso
+   Trilha. Sai do quadro para encostar na borda e mostrar que há mais ao lado.
    -------------------------------------------------------------------------- */
-.caso {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: clamp(16px, 2.2vw, 32px);
-  row-gap: clamp(28px, 3.4vw, 40px);
-  padding-block: clamp(46px, 6vw, 82px);
-  border-top: 1px solid var(--linha);
+.cases__trilha {
+  display: flex;
+  gap: clamp(16px, 2vw, 28px);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: var(--gutter);
+  padding-inline: max(var(--gutter), calc((100vw - var(--larg)) / 2 + var(--gutter)));
+  padding-bottom: 20px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--linha-forte) transparent;
 }
 
-.caso:last-child {
+.cases__trilha:focus-visible {
+  outline: 2px solid var(--terra-clara);
+  outline-offset: -2px;
+}
+
+.cases__trilha::-webkit-scrollbar {
+  height: 4px;
+}
+
+.cases__trilha::-webkit-scrollbar-thumb {
+  background: var(--linha-forte);
+  border-radius: 999px;
+}
+
+.caso {
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+  /* Menos de uma tela cheia: a borda do próximo card aparece e diz que há
+     mais conteúdo, sem precisar de seta nem de texto avisando. */
+  width: min(560px, 82vw);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 2.4vw, 30px);
+  padding: clamp(24px, 2.8vw, 40px);
+  border: 1px solid var(--linha-forte);
+  border-radius: 16px;
+  background: var(--preto-2);
+}
+
+.caso__topo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: clamp(18px, 2.2vw, 26px);
   border-bottom: 1px solid var(--linha);
 }
 
-.caso__identidade {
-  grid-column: 1 / span 4;
-}
-
-.caso__detalhe {
-  grid-column: 6 / -1;
-}
-
-/* Zigue-zague: o caso do meio troca os lados de posição. */
-.caso--invertido .caso__identidade {
-  grid-column: 9 / -1;
-  grid-row: 1;
-}
-
-.caso--invertido .caso__detalhe {
-  grid-column: 1 / span 7;
-  grid-row: 1;
-}
-
-/* --- Identidade --- */
 .caso__cliente {
-  margin-top: 16px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-stretch: 108%;
+  font-size: clamp(1.25rem, 2vw, 1.7rem);
+  line-height: 1.08;
+  letter-spacing: -0.028em;
   color: var(--papel);
 }
 
 .caso__nicho {
-  margin-top: 10px;
-  font-size: 0.86rem;
-  line-height: 1.55;
-  color: var(--apagado);
-  max-width: 26ch;
+  margin-top: 6px;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--apagado-2);
+  max-width: 30ch;
 }
 
-.caso__link,
-.caso__dominio {
-  display: inline-flex;
-  margin-top: 18px;
-}
-
-/* --- Detalhe --- */
-.caso__par {
-  display: grid;
-  grid-template-columns: minmax(0, 150px) minmax(0, 1fr);
-  gap: 10px clamp(18px, 2.4vw, 34px);
-  padding-block: 18px;
-  border-top: 1px solid var(--linha);
-}
-
-.caso__par:first-child {
-  border-top: 0;
-  padding-top: 0;
+.caso__detalhe {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2vw, 22px);
 }
 
 .caso__rotulo {
-  font-size: 0.63rem;
+  font-size: 0.68rem;
   font-weight: 500;
-  letter-spacing: 0.19em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--apagado-2);
-  padding-top: 5px;
+  margin-bottom: 7px;
 }
 
 .caso__valor {
-  font-size: 0.95rem;
-  line-height: 1.63;
+  font-size: 0.93rem;
+  line-height: 1.6;
   color: var(--apagado);
-  max-width: 58ch;
 }
 
-/* O fecho é o que interessa: fio terracota e texto em bege, um pouco maior. */
-.caso__par--fecho {
-  border-top-color: var(--terra);
-}
-
-.caso__rotulo--fecho {
-  color: var(--terra-clara);
-}
-
+/* O fecho é a única parte do card em cor de identidade. */
 .caso__valor--fecho {
-  font-size: clamp(1rem, 1.2vw, 1.1rem);
   color: var(--areia);
 }
 
-/* --- Citação (só quando houver depoimento real) --- */
 .caso__citacao {
-  grid-column: 6 / -1;
+  padding-left: clamp(14px, 1.6vw, 20px);
   border-left: 1px solid var(--terra);
-  padding-left: clamp(18px, 2vw, 28px);
-}
-
-.caso--invertido .caso__citacao {
-  grid-column: 1 / span 7;
 }
 
 .caso__citacao p {
+  font-size: 1rem;
+  line-height: 1.55;
   color: var(--papel);
 }
 
 .caso__citacao footer {
-  margin-top: 12px;
+  margin-top: 8px;
 }
 
-/* --------------------------------------------------------------------------
-   Telas menores
-   -------------------------------------------------------------------------- */
-@media (max-width: 1080px) {
+.caso__pe {
+  margin-top: auto;
+  padding-top: clamp(16px, 2vw, 22px);
+  border-top: 1px solid var(--linha);
+}
+
+@media (max-width: 900px) {
   .cases__cabecalho-texto {
-    grid-column: 1 / span 9;
-  }
-
-  .caso__identidade,
-  .caso--invertido .caso__identidade {
-    grid-column: 1 / span 4;
-    grid-row: auto;
-  }
-
-  .caso__detalhe,
-  .caso--invertido .caso__detalhe {
-    grid-column: 6 / -1;
-    grid-row: auto;
-  }
-
-  .caso__citacao,
-  .caso--invertido .caso__citacao {
-    grid-column: 6 / -1;
-  }
-}
-
-@media (max-width: 760px) {
-  .caso__identidade,
-  .caso--invertido .caso__identidade,
-  .caso__detalhe,
-  .caso--invertido .caso__detalhe,
-  .caso__citacao,
-  .caso--invertido .caso__citacao {
     grid-column: 1 / -1;
   }
 
-  .caso__par {
-    grid-template-columns: 1fr;
-    gap: 6px;
-  }
-
-  .caso__nicho {
-    max-width: none;
+  .caso {
+    width: 86vw;
   }
 }

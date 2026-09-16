@@ -1,159 +1,119 @@
-/* --------------------------------------------------------------------------
-   Cabeçalho da seção
-   -------------------------------------------------------------------------- */
 .problemas__cabecalho {
   align-items: end;
-  row-gap: 28px;
-  margin-bottom: clamp(56px, 7vw, 96px);
+  row-gap: 24px;
+  margin-bottom: clamp(48px, 7vw, 88px);
 }
 
 .problemas__cabecalho-titulo {
   grid-column: 1 / span 7;
 }
 
-.problemas__titulo {
-  margin-top: 20px;
-}
-
-/* O texto de apoio não começa junto com o título: entra depois e mais baixo. */
 .problemas__cabecalho-texto {
   grid-column: 9 / -1;
-  padding-bottom: 8px;
 }
 
 /* --------------------------------------------------------------------------
-   Lista de problemas
+   Pilha. Cada item gruda abaixo do cabeçalho fixo e o seguinte sobe por cima.
    -------------------------------------------------------------------------- */
-.problemas__lista {
-  counter-reset: none;
+.problemas__pilha {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 3vw, 32px);
 }
 
 .problema {
+  position: sticky;
+  /* Abaixo da nav fixa, com folga. */
+  top: clamp(84px, 11vh, 108px);
+}
+
+.problema__cartao {
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: clamp(16px, 2.2vw, 32px);
-  row-gap: clamp(24px, 3vw, 36px);
-  align-items: start;
-  padding-block: clamp(44px, 5.5vw, 76px);
-  border-top: 1px solid var(--linha);
-}
-
-.problema:last-child {
-  border-bottom: 1px solid var(--linha);
-}
-
-.problema__n {
-  grid-column: 1 / span 1;
-  margin-top: -0.12em;
-}
-
-.problema__dor {
-  grid-column: 2 / span 6;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(28px, 4vw, 64px);
+  padding: clamp(28px, 3.6vw, 56px);
+  border: 1px solid var(--linha-forte);
+  border-radius: 16px;
+  /* Fundo sólido: a carta precisa tampar a de baixo ao empilhar. */
+  background: var(--preto-2);
+  transform-origin: top center;
 }
 
 .problema__frase {
   color: var(--papel);
+  max-width: 20ch;
 }
 
 .problema__custo {
-  margin-top: 16px;
-  color: var(--apagado);
-  font-size: 0.95rem;
-  line-height: 1.6;
-  max-width: 42ch;
-}
-
-/* Bloco da solução: fio terracota à esquerda em vez de card com sombra. */
-.problema__solucao {
-  grid-column: 9 / span 4;
-  border-left: 1px solid var(--terra);
-  padding-left: clamp(18px, 1.9vw, 28px);
-}
-
-.problema__rotulo {
-  font-size: 0.63rem;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  margin-top: clamp(14px, 1.8vw, 22px);
   color: var(--terra-clara);
-  margin-bottom: 10px;
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  line-height: 1.55;
+  max-width: 34ch;
 }
 
-.problema__solucao-titulo {
+.problema__resposta {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-self: start;
+  padding-left: clamp(0px, 2vw, 32px);
+  border-left: 1px solid var(--linha);
+}
+
+.problema__solucao {
   font-family: var(--display);
-  font-size: clamp(1.22rem, 1.9vw, 1.6rem);
-  font-weight: 400;
-  line-height: 1.14;
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  font-stretch: 105%;
+  font-size: clamp(1.02rem, 1.3vw, 1.22rem);
+  letter-spacing: -0.015em;
   color: var(--areia);
-  margin-bottom: 12px;
 }
 
 .problema__solucao-texto {
-  font-size: 0.92rem;
-  line-height: 1.62;
   color: var(--apagado);
+  font-size: 0.93rem;
+  line-height: 1.62;
+  max-width: 44ch;
 }
 
-/* Item do meio: desloca a régua inteira uma coluna para a esquerda e desce
-   o bloco da solução — é o que tira o ritmo de tabela da seção. */
-.problema--desloca .problema__dor {
-  grid-column: 1 / span 6;
+.problema__resposta .agente {
+  margin-top: 10px;
 }
 
-.problema--desloca .problema__n {
-  grid-column: 12 / span 1;
-  grid-row: 1;
-  justify-self: end;
-}
-
-.problema--desloca .problema__solucao {
-  grid-column: 8 / span 4;
-  margin-top: clamp(24px, 3.4vw, 56px);
-}
-
-/* --------------------------------------------------------------------------
-   Telas menores
-   -------------------------------------------------------------------------- */
-@media (max-width: 1080px) {
-  .problemas__cabecalho-titulo {
-    grid-column: 1 / span 8;
-  }
-  .problemas__cabecalho-texto {
-    grid-column: 1 / span 8;
-  }
-
-  .problema__dor,
-  .problema--desloca .problema__dor {
-    grid-column: 2 / span 10;
-  }
-
-  .problema__solucao,
-  .problema--desloca .problema__solucao {
-    grid-column: 2 / span 10;
-    margin-top: 0;
-  }
-
-  .problema--desloca .problema__n {
-    grid-column: 1 / span 1;
-    justify-self: start;
-  }
-}
-
-@media (max-width: 680px) {
+@media (max-width: 900px) {
+  /* Empilhar só funciona enquanto cada carta cabe na tela. No celular elas
+     ficam bem mais altas que a viewport, passam a se sobrepor e a de cima
+     rouba os cliques da demo que está embaixo. Aqui vira lista normal. */
   .problema {
-    row-gap: 22px;
+    position: static;
   }
 
-  .problema__n,
-  .problema--desloca .problema__n {
+  .problemas__cabecalho-titulo,
+  .problemas__cabecalho-texto {
     grid-column: 1 / -1;
   }
 
-  .problema__dor,
-  .problema--desloca .problema__dor,
-  .problema__solucao,
-  .problema--desloca .problema__solucao {
-    grid-column: 1 / -1;
+  .problema__cartao {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .problema__resposta {
+    padding-left: 0;
+    padding-top: 22px;
+    border-left: 0;
+    border-top: 1px solid var(--linha);
+  }
+
+  .problema__frase {
+    max-width: none;
+  }
+}
+
+/* Sem o empilhamento não há por que prender nada no topo. */
+@media (prefers-reduced-motion: reduce) {
+  .problema {
+    position: static;
   }
 }

@@ -1,134 +1,108 @@
-.processo {
-  background: var(--preto-2);
-  border-block: 1px solid var(--linha);
-}
-
-/* Largura em rem, não em ch: `ch` aqui seria medido pela fonte do container
-   (sans, ~17px) e não pelo serif de 57px do título, deixando a coluna
-   estreita demais. */
+/* Sem max-width em ch: o título é Archivo expandido e `ch` mede a fonte do
+   corpo, o que picotava o título em quatro linhas estreitas. */
 .processo__cabecalho {
-  max-width: 30rem;
-  margin-bottom: clamp(56px, 7vw, 96px);
-}
-
-.processo__titulo {
-  margin-top: 20px;
+  margin-bottom: clamp(52px, 7vw, 92px);
+  max-width: min(100%, 720px);
 }
 
 /* --------------------------------------------------------------------------
-   Escada de etapas
+   Trilha vertical. O fio fica atrás; cada etapa pendura uma marca nele.
    -------------------------------------------------------------------------- */
-.processo__etapas {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  column-gap: clamp(18px, 2.4vw, 36px);
+.processo__trilha {
+  /* Um valor só para o recuo, reaproveitado negado pela marca. Antes eram
+     dois clamps independentes e as marcas não encostavam no fio. */
+  --recuo: clamp(30px, 5vw, 72px);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(40px, 5.5vw, 76px);
+  padding-left: var(--recuo);
+}
+
+.processo__fio {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 0;
+  width: 1px;
+  background: var(--linha);
+}
+
+.processo__fio-ativo {
+  display: block;
+  width: 100%;
+  background: var(--terra-clara);
 }
 
 .etapa {
-  border-top: 1px solid var(--linha);
-  padding-top: 22px;
   position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  column-gap: clamp(12px, 3vw, 48px);
+  row-gap: 10px;
+  align-items: start;
 }
 
-/* Ponto terracota apoiado na linha do topo. */
-.etapa::before {
-  content: '';
+/* Centrada no fio, na altura da linha de número. */
+.etapa__marca {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 7px;
-  height: 7px;
+  top: 5px;
+  left: calc(var(--recuo) * -1);
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
-  background: var(--terra);
-  transform: translateY(-50%);
-}
-
-/* O degrau: cada etapa começa mais abaixo que a anterior. */
-.processo__etapas .etapa:nth-child(2) {
-  margin-top: clamp(22px, 3vw, 44px);
-}
-
-.processo__etapas .etapa:nth-child(3) {
-  margin-top: clamp(44px, 6vw, 88px);
-}
-
-.processo__etapas .etapa:nth-child(4) {
-  margin-top: clamp(66px, 9vw, 132px);
+  background: var(--preto);
+  border: 1px solid var(--terra);
+  transform: translateX(-4px);
 }
 
 .etapa__cabeca {
+  grid-column: 1 / -1;
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 18px;
+  gap: 16px;
 }
 
 .etapa__n {
   font-family: var(--display);
-  font-size: clamp(1.6rem, 2.6vw, 2.3rem);
-  line-height: 1;
+  font-weight: 700;
+  font-stretch: 112%;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
   color: var(--terra-clara);
+  font-variant-numeric: tabular-nums;
 }
 
 .etapa__prazo {
-  font-size: 0.63rem;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
   color: var(--apagado-2);
-  text-align: right;
 }
 
 .etapa__titulo {
   font-family: var(--display);
-  font-size: clamp(1.25rem, 1.9vw, 1.6rem);
-  font-weight: 400;
-  line-height: 1.12;
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  font-stretch: 106%;
+  font-size: clamp(1.32rem, 2.4vw, 2.1rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
   color: var(--papel);
-  margin-bottom: 12px;
 }
 
 .etapa__texto {
-  font-size: 0.92rem;
-  line-height: 1.62;
   color: var(--apagado);
+  font-size: 0.95rem;
+  line-height: 1.62;
+  max-width: 46ch;
 }
 
-/* --------------------------------------------------------------------------
-   Telas menores
-   -------------------------------------------------------------------------- */
-@media (max-width: 900px) {
-  .processo__etapas {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    row-gap: clamp(34px, 5vw, 52px);
+@media (max-width: 860px) {
+  .etapa {
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 
-  .processo__etapas .etapa:nth-child(2) {
-    margin-top: clamp(22px, 4vw, 44px);
-  }
-  .processo__etapas .etapa:nth-child(3) {
-    margin-top: 0;
-  }
-  .processo__etapas .etapa:nth-child(4) {
-    margin-top: clamp(22px, 4vw, 44px);
-  }
-}
-
-@media (max-width: 560px) {
   .processo__cabecalho {
     max-width: none;
-  }
-
-  .processo__etapas {
-    grid-template-columns: 1fr;
-    row-gap: 30px;
-  }
-
-  .processo__etapas .etapa:nth-child(2),
-  .processo__etapas .etapa:nth-child(3),
-  .processo__etapas .etapa:nth-child(4) {
-    margin-top: 0;
   }
 }

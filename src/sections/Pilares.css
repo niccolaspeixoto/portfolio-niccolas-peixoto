@@ -1,0 +1,84 @@
+.pilares {
+  position: relative;
+  padding-block: clamp(56px, 7vw, 96px);
+  border-top: 1px solid var(--linha);
+}
+
+/* O item principal ocupa a coluna inteira da esquerda e a altura das duas
+   linhas da direita. Nada aqui é 1fr 1fr 1fr. */
+.pilares__grade {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 1px;
+  background: var(--linha);
+  border: 1px solid var(--linha);
+}
+
+.pilar {
+  background: var(--preto);
+  padding: clamp(24px, 3vw, 40px);
+}
+
+.pilar--principal {
+  grid-row: span 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: var(--preto-2);
+  min-height: clamp(220px, 26vw, 330px);
+}
+
+.pilar__titulo {
+  color: var(--papel);
+  margin-bottom: 10px;
+}
+
+.pilar--principal .pilar__titulo {
+  font-size: clamp(1.5rem, 2.6vw, 2.3rem);
+  color: var(--areia);
+}
+
+.pilar__texto {
+  color: var(--apagado);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  max-width: 34ch;
+}
+
+/* Faixa de garantias que antes morava dentro do hero. */
+.pilares__selos {
+  margin-top: clamp(28px, 3.4vw, 44px);
+}
+
+.pilares__selos ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px clamp(22px, 3vw, 40px);
+}
+
+.pilares__selos li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pilares__selos li::before {
+  content: '';
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--terra);
+  flex: none;
+}
+
+@media (max-width: 860px) {
+  .pilares__grade {
+    grid-template-columns: 1fr;
+  }
+
+  .pilar--principal {
+    grid-row: auto;
+    min-height: 0;
+  }
+}

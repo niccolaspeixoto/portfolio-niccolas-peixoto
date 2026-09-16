@@ -22,10 +22,12 @@
   transform: translate(clamp(14px, 2.2vw, 26px), clamp(-26px, -2.2vw, -14px));
 }
 
+/* Escala própria: a caixa da chamada é mais estreita que o quadro por causa
+   do recuo e do padding, então o título dela não cabe na medida das outras
+   seções. Medido: a linha mais longa ocupa ~12,7x o font-size. */
 .chamada__titulo {
   margin-top: clamp(22px, 2.6vw, 34px);
-  font-size: clamp(2.4rem, 6vw, 5.4rem);
-  max-width: 16ch;
+  font-size: clamp(1.45rem, 4.6vw, 4.4rem);
 }
 
 .chamada__rodape-interno {
@@ -47,6 +49,16 @@
 .chamada__numero {
   padding-left: clamp(18px, 2.6vw, 30px);
   border-left: 1px solid var(--linha);
+}
+
+.chamada__socials {
+  margin-top: clamp(40px, 5vw, 64px);
+  padding-top: clamp(28px, 3.4vw, 42px);
+  border-top: 1px solid var(--linha);
+}
+
+.chamada__socials-legenda {
+  margin-bottom: 16px;
 }
 
 @media (max-width: 640px) {
