@@ -63,6 +63,18 @@
   background: var(--preto-3);
 }
 
+/* Cortina do wipe: cobre a moldura inteira e se recolhe por cima da imagem
+   (ver Projetos.jsx). Mesmo tom do placeholder da moldura, então some sem
+   deixar um flash de cor estranha antes da imagem já estar por baixo. */
+.projeto__cortina {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--preto-3);
+  transform-origin: top;
+  pointer-events: none;
+}
+
 .projeto__moldura img {
   width: 100%;
   height: 100%;

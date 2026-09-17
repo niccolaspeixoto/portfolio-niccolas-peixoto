@@ -42,6 +42,18 @@
   );
 }
 
+/* Cortina que fecha a cena: opacidade controlada pelo Framer Motion via
+   scrollYProgress, não por CSS. Fica acima de tudo, inclusive do texto,
+   porque só começa a aparecer quando o visitante já está quase saindo
+   do hero (ver Hero.jsx). */
+.hero__cortina {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background: var(--preto);
+  pointer-events: none;
+}
+
 /* --------------------------------------------------------------------------
    Texto
    -------------------------------------------------------------------------- */

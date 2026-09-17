@@ -1,4 +1,5 @@
 import Reveal from '../components/Reveal';
+import SecaoComTransicao from '../components/SecaoComTransicao';
 import { hero } from '../data/conteudo';
 import './Pilares.css';
 
@@ -11,7 +12,7 @@ export default function Pilares() {
   const [principal, ...demais] = hero.pilares;
 
   return (
-    <section className="pilares">
+    <SecaoComTransicao className="pilares">
       <div className="quadro">
         <ul className="pilares__grade">
           <Reveal como="li" className="pilar pilar--principal">
@@ -37,6 +38,6 @@ export default function Pilares() {
           </ul>
         </Reveal>
       </div>
-    </section>
+    </SecaoComTransicao>
   );
 }

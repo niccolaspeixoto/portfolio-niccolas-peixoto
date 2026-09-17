@@ -1,7 +1,7 @@
 /* Variantes do Framer Motion usadas em mais de um lugar.
    Ficam fora dos componentes para não serem recriadas a cada render. */
 
-const SUAVE = [0.16, 1, 0.3, 1];
+export const SUAVE = [0.16, 1, 0.3, 1];
 
 /* Entrada padrão: sobe um pouco e aparece. Discreto de propósito.
    O atraso chega por `custom` para não brigar com a prop `transition`. */

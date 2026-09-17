@@ -1,5 +1,6 @@
 import { ArrowUpRight } from 'lucide-react';
 import Reveal from '../components/Reveal';
+import SecaoComTransicao from '../components/SecaoComTransicao';
 import { cases } from '../data/conteudo';
 import './Cases.css';
 
@@ -10,7 +11,7 @@ import './Cases.css';
  */
 export default function Cases() {
   return (
-    <section id="cases" className="faixa cases">
+    <SecaoComTransicao id="cases" className="faixa cases">
       <div className="quadro">
         <div className="grade cases__cabecalho">
           <Reveal className="cases__cabecalho-texto">
@@ -86,6 +87,6 @@ export default function Cases() {
           </li>
         ))}
       </ol>
-    </section>
+    </SecaoComTransicao>
   );
 }

@@ -303,38 +303,56 @@ ol {
    Holofote que segue o ponteiro dentro do botão.
    A posição chega por --brilho-x / --brilho-y, escritas no pointermove.
    -------------------------------------------------------------------------- */
+/* Tentativa 3: borda que acende perto do cursor, em vez de brilho
+   preenchido por dentro. Duas camadas por trás do texto do botão, na ordem
+   em que aparecem aqui (mesmo z-index, quem vem depois pinta por cima):
+   ::before é o gradiente inteiro; ::after é uma cópia do fundo do botão,
+   encolhida por dentro, que tampa tudo menos um traço fino nas bordas.
+   O resultado é o mesmo de uma máscara "exclude", sem depender dela. */
 .botao--brilho {
   position: relative;
-  /* Segura o z-index negativo do brilho dentro do próprio botão. */
   isolation: isolate;
-  overflow: hidden;
 }
 
-/* z-index -1 pinta acima do fundo do botão e abaixo do texto, que é
-   exatamente onde o brilho precisa ficar. */
-.botao--brilho::before {
+.botao--brilho::before,
+.botao--brilho::after {
   content: '';
   position: absolute;
-  inset: 0;
   z-index: -1;
-  pointer-events: none;
+  border-radius: inherit;
   opacity: 0;
-  transition: opacity 0.32s var(--suave);
+  pointer-events: none;
+  transition: opacity 0.3s var(--suave);
+}
+
+.botao--brilho::before {
+  inset: 0;
   background: radial-gradient(
-    circle 130px at var(--brilho-x, 50%) var(--brilho-y, 50%),
-    color-mix(in srgb, var(--papel) 40%, transparent) 0%,
-    color-mix(in srgb, var(--areia) 34%, transparent) 36%,
+    150px circle at var(--brilho-x, 50%) var(--brilho-y, 50%),
+    var(--papel) 0%,
+    var(--terra-clara) 40%,
     transparent 72%
   );
 }
 
+.botao--brilho::after {
+  /* Espessura do traço aceso: a distância entre este inset e o inset:0
+     do ::before por baixo. 1.5px tinha ficado fino demais para notar sem
+     dar zoom; 3px é o primeiro valor em que o traço se vê a olho nu. */
+  inset: 3px;
+  background: var(--terra);
+}
+
 .botao--brilho:hover::before,
-.botao--brilho:focus-visible::before {
+.botao--brilho:hover::after,
+.botao--brilho:focus-visible::before,
+.botao--brilho:focus-visible::after {
   opacity: 1;
 }
 
-/* O preenchimento fica no tom base: se o fundo inteiro clareasse no hover,
-   como no botão cheio comum, o holofote não teria contra o que aparecer. */
+/* O preenchimento fica fixo no tom base: se o fundo inteiro clareasse no
+   hover, como no botão cheio comum, a borda acesa perderia contraste contra
+   o ::after, que está pintado nesse mesmo tom. */
 .botao--cheio.botao--brilho:hover {
   background: var(--terra);
 }

@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import Reveal from '../components/Reveal';
+import SecaoComTransicao from '../components/SecaoComTransicao';
 import { processo } from '../data/conteudo';
 import './Processo.css';
 
@@ -20,7 +21,7 @@ export default function Processo() {
   const altura = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
 
   return (
-    <section id="processo" className="faixa processo">
+    <SecaoComTransicao id="processo" className="faixa processo">
       <div className="quadro">
         <Reveal className="processo__cabecalho">
           <h2 className="d-secao">{processo.titulo}</h2>
@@ -50,6 +51,6 @@ export default function Processo() {
           ))}
         </ol>
       </div>
-    </section>
+    </SecaoComTransicao>
   );
 }

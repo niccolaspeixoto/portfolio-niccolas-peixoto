@@ -13,18 +13,13 @@
 }
 
 /* --------------------------------------------------------------------------
-   Pilha. Cada item gruda abaixo do cabeçalho fixo e o seguinte sobe por cima.
+   Lista. Cada item revela ao entrar na tela, um atrás do outro — sem pin,
+   sem sticky (ver Problemas.jsx pro motivo).
    -------------------------------------------------------------------------- */
 .problemas__pilha {
   display: flex;
   flex-direction: column;
   gap: clamp(20px, 3vw, 32px);
-}
-
-.problema {
-  position: sticky;
-  /* Abaixo da nav fixa, com folga. */
-  top: clamp(84px, 11vh, 108px);
 }
 
 .problema__cartao {
@@ -34,9 +29,7 @@
   padding: clamp(28px, 3.6vw, 56px);
   border: 1px solid var(--linha-forte);
   border-radius: 16px;
-  /* Fundo sólido: a carta precisa tampar a de baixo ao empilhar. */
   background: var(--preto-2);
-  transform-origin: top center;
 }
 
 .problema__frase {
@@ -82,13 +75,6 @@
 }
 
 @media (max-width: 900px) {
-  /* Empilhar só funciona enquanto cada carta cabe na tela. No celular elas
-     ficam bem mais altas que a viewport, passam a se sobrepor e a de cima
-     rouba os cliques da demo que está embaixo. Aqui vira lista normal. */
-  .problema {
-    position: static;
-  }
-
   .problemas__cabecalho-titulo,
   .problemas__cabecalho-texto {
     grid-column: 1 / -1;
@@ -108,12 +94,5 @@
 
   .problema__frase {
     max-width: none;
-  }
-}
-
-/* Sem o empilhamento não há por que prender nada no topo. */
-@media (prefers-reduced-motion: reduce) {
-  .problema {
-    position: static;
   }
 }

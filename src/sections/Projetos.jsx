@@ -1,11 +1,16 @@
 import { ArrowUpRight } from 'lucide-react';
+import { motion, useReducedMotion } from 'framer-motion';
 import Reveal from '../components/Reveal';
+import SecaoComTransicao from '../components/SecaoComTransicao';
+import { janela, SUAVE } from '../lib/animacoes';
 import { projetos } from '../data/conteudo';
 import './Projetos.css';
 
 export default function Projetos() {
+  const semMovimento = useReducedMotion();
+
   return (
-    <section id="projetos" className="faixa projetos">
+    <SecaoComTransicao id="projetos" className="faixa projetos">
       <div className="quadro">
         <div className="grade projetos__cabecalho">
           <Reveal className="projetos__cabecalho-titulo">
@@ -41,6 +46,26 @@ export default function Projetos() {
                       alt={`Tela inicial do site de ${item.cliente}`}
                       loading="lazy"
                     />
+
+                    {/* Cortina opaca que se recolhe por cima da imagem ao
+                        entrar na tela — visualmente é o mesmo wipe de cima
+                        pra baixo que um clip-path faria, mas via `scaleY`
+                        (transform), que o Framer Motion detecta de forma
+                        confiável com whileInView. clipPath não disparava o
+                        onViewportEnter deste elemento em nenhum teste,
+                        isolado ou não — parece uma limitação da versão
+                        instalada da biblioteca com essa propriedade
+                        especificamente. */}
+                    {!semMovimento && (
+                      <motion.span
+                        className="projeto__cortina"
+                        aria-hidden="true"
+                        initial={{ scaleY: 1 }}
+                        whileInView={{ scaleY: 0 }}
+                        transition={{ duration: 0.9, ease: SUAVE }}
+                        viewport={janela}
+                      />
+                    )}
                   </div>
 
                   <div className="projeto__pe">
@@ -66,6 +91,6 @@ export default function Projetos() {
           })}
         </div>
       </div>
-    </section>
+    </SecaoComTransicao>
   );
 }

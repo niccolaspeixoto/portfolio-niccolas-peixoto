@@ -2,11 +2,13 @@ import { useRef } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { MessageCircle, ArrowDown } from 'lucide-react';
 import TituloLinhas from '../components/TituloLinhas';
+import { useBrilhoSeguidor } from '../lib/useBrilhoSeguidor';
 import { hero, contato } from '../data/conteudo';
 import './Hero.css';
 
 export default function Hero() {
   const secao = useRef(null);
+  const botaoCta = useRef(null);
   const semMovimento = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
@@ -14,14 +16,12 @@ export default function Hero() {
     offset: ['start start', 'end start'],
   });
   const deslocaFoto = useTransform(scrollYProgress, [0, 1], ['0%', '12%']);
+  /* Só escurece no último terço da passagem pelo hero: a cena fecha pouco
+     antes da próxima seção assumir, em vez de escurecer assim que a rolagem
+     começa (o que apagaria o hero enquanto ele ainda domina a tela). */
+  const cortina = useTransform(scrollYProgress, [0.6, 1], [0, 1]);
 
-  /* Escreve a posição do ponteiro direto no style do botão. Guardar isso em
-     estado do React re-renderizaria a árvore a cada pixel do mouse. */
-  const seguirPonteiro = (evento) => {
-    const area = evento.currentTarget.getBoundingClientRect();
-    evento.currentTarget.style.setProperty('--brilho-x', `${evento.clientX - area.left}px`);
-    evento.currentTarget.style.setProperty('--brilho-y', `${evento.clientY - area.top}px`);
-  };
+  useBrilhoSeguidor(botaoCta);
 
   const entra = (atraso, deslocamento = 14) =>
     semMovimento
@@ -53,6 +53,16 @@ export default function Hero() {
         <span className="hero__veu" aria-hidden="true" />
       </motion.div>
 
+      {/* Cortina que fecha a cena pouco antes da próxima seção assumir, em
+          vez de cortar seco de uma seção pra outra. */}
+      {!semMovimento && (
+        <motion.span
+          className="hero__cortina"
+          style={{ opacity: cortina }}
+          aria-hidden="true"
+        />
+      )}
+
       <div className="quadro hero__quadro">
         <div className="hero__texto">
           <TituloLinhas linhas={hero.titulo} como="h1" className="d-hero" imediato />
@@ -63,11 +73,11 @@ export default function Hero() {
 
           <motion.div className="hero__acoes" {...entra(0.62)}>
             <a
+              ref={botaoCta}
               href={contato.whatsapp}
               target="_blank"
               rel="noreferrer"
               className="botao botao--cheio botao--brilho"
-              onPointerMove={seguirPonteiro}
             >
               <MessageCircle size={17} strokeWidth={1.8} />
               {hero.cta}

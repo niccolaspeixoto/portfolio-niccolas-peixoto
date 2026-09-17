@@ -23,16 +23,27 @@
 }
 
 .diferencial {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
   gap: clamp(8px, 2.4vw, 40px);
   padding-block: clamp(24px, 3vw, 36px);
-  border-top: 1px solid var(--linha);
 }
 
 .diferencial:first-child {
   padding-top: 0;
-  border-top: 0;
+}
+
+/* Linha divisória entre itens, animada em vez de um border-top estático
+   (ver Diferenciais.jsx — usa o token fioCresce, mesmo do resto do site). */
+.diferencial__fio {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--linha);
+  transform-origin: left;
 }
 
 .diferencial__titulo {
