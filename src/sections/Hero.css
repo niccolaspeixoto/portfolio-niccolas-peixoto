@@ -216,7 +216,8 @@
    -------------------------------------------------------------------------- */
 @media (max-width: 900px) {
   .hero {
-    min-height: auto;
+    /* Tela cheia também no celular (dvh: a barra de endereço muda a altura). */
+    min-height: 100dvh;
     /* Teto maior que no desktop (era 180px): dá a folga vertical que o
        rosto precisa pra não ficar bem atrás da primeira linha do título
        (ver object-position abaixo — testado nas larguras 375-900px). */
