@@ -313,8 +313,8 @@ export const projetos = {
       nicho: 'Estúdio de beleza',
       tipo: 'Site institucional + agendamento',
       imagem: '/projetos/thalita-kuesteis.jpg',
-      url: null,
-      status: 'Em implantação',
+      url: 'https://thalitakuesteis.com.br/',
+      status: 'No ar',
       tamanho: 'medio',
       caso: {
         problema:
