@@ -293,7 +293,7 @@ export const projetos = {
       cliente: 'Thalita Kuesteis Studio',
       nicho: 'Estúdio de beleza',
       tipo: 'Site institucional + agendamento',
-      imagem: '/projetos/thalita-kuesteis.jpg',
+      imagem: '/projetos/thalita-kuesteis-v2.jpg',
       url: 'https://thalitakuesteis.com.br/',
       status: 'No ar',
       tamanho: 'medio',
