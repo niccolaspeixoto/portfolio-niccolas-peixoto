@@ -1,0 +1,601 @@
+/* ==========================================================================
+   Painel do sistema fictício. Tamanhos em px de propósito: é uma "tela
+   dentro da tela", com escala de aplicativo, não de página. O layout
+   responde à largura do próprio painel (container queries), porque o
+   mesmo painel aparece em lugares de tamanhos diferentes.
+   ========================================================================== */
+.painel-conteiner {
+  container-type: inline-size;
+  width: 100%;
+}
+
+.painel {
+  position: relative;
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  min-height: 470px;
+  overflow: hidden;
+  border: 1px solid var(--linha);
+  border-radius: 14px;
+  background: var(--preto-2);
+  font-family: var(--sans);
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--papel);
+  text-align: left;
+}
+
+/* --- Lateral --- */
+.painel__lateral {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 18px 12px;
+  background: #0f0d0c;
+  border-right: 1px solid var(--linha);
+}
+
+.painel__marca {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.painel__logo {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  flex: none;
+  border-radius: 7px;
+  background: var(--terra);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.painel__menu {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.painel__menu-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: var(--apagado);
+  transition:
+    background 0.5s var(--suave),
+    color 0.5s var(--suave),
+    box-shadow 0.5s var(--suave);
+}
+
+.painel__menu-item--ativo {
+  background: color-mix(in srgb, var(--terra-clara) 14%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--terra-clara) 30%, transparent);
+  color: var(--papel);
+}
+
+.painel__menu-item--ativo svg {
+  color: var(--terra-clara);
+}
+
+/* --- Área principal --- */
+.painel__principal {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  padding: 18px 20px 20px;
+}
+
+.painel__topo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.painel__data {
+  display: block;
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  color: var(--apagado);
+}
+
+.painel__titulo {
+  font-family: var(--display);
+  font-weight: 700;
+  font-stretch: 110%;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+}
+
+.painel__selo {
+  flex: none;
+  padding: 4px 9px;
+  border: 1px dashed color-mix(in srgb, var(--areia) 42%, transparent);
+  border-radius: 999px;
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--areia);
+}
+
+.painel__resumo {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.painel__indicador {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: hidden;
+  padding: 11px 12px;
+  border: 1px solid var(--linha);
+  border-radius: 10px;
+  background: var(--preto-3);
+}
+
+.painel__indicador-rotulo {
+  font-size: 10px;
+  color: var(--apagado);
+  white-space: nowrap;
+}
+
+.painel__indicador-valor {
+  display: block;
+  font-family: var(--display);
+  font-weight: 700;
+  font-stretch: 108%;
+  font-size: 20px;
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+}
+
+.painel__indicador--destaque .painel__indicador-valor {
+  color: var(--terra-clara);
+}
+
+.painel__grade {
+  display: grid;
+  flex: 1;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 10px;
+}
+
+.painel__cartao {
+  min-width: 0;
+  padding: 12px 13px;
+  border: 1px solid var(--linha);
+  border-radius: 10px;
+  background: var(--preto-3);
+}
+
+.painel__agenda {
+  grid-row: span 2;
+}
+
+.painel__cartao-titulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--apagado);
+}
+
+/* --- Agenda do dia --- */
+.painel__horarios {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  /* Espaço pros 5 horários desde o começo: a lista enche sem empurrar
+     o resto do painel (nem a página, no celular). */
+  min-height: 252px;
+}
+
+.painel__horario {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border: 1px solid var(--linha);
+  border-radius: 8px;
+  background: rgba(245, 240, 234, 0.025);
+}
+
+.painel__hora {
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: var(--areia);
+}
+
+.painel__cliente {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 11.5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.painel__cliente small {
+  font-size: 10px;
+  color: var(--apagado-2);
+}
+
+.painel__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: rgba(245, 240, 234, 0.06);
+  font-size: 9.5px;
+  white-space: nowrap;
+  color: var(--apagado);
+  transition:
+    color 0.4s var(--suave),
+    background 0.4s var(--suave);
+}
+
+.painel__status--ok {
+  background: color-mix(in srgb, var(--terra-clara) 15%, transparent);
+  color: var(--terra-clara);
+}
+
+/* --- Notificação --- */
+.painel__notificacao {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px 10px 10px;
+  border: 1px solid color-mix(in srgb, var(--terra-clara) 40%, transparent);
+  border-radius: 12px;
+  background: rgba(25, 21, 19, 0.94);
+  box-shadow:
+    0 18px 40px -12px rgba(0, 0, 0, 0.7),
+    0 0 30px -10px rgba(232, 118, 59, 0.55);
+}
+
+.painel__notificacao-icone {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  flex: none;
+  border-radius: 8px;
+  background: var(--terra);
+}
+
+.painel__notificacao strong {
+  display: block;
+  font-size: 11.5px;
+}
+
+.painel__notificacao small {
+  font-size: 10px;
+  color: var(--apagado);
+}
+
+/* ==========================================================================
+   Peças compartilhadas
+   ========================================================================== */
+.painel-pilula {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--terra-clara) 15%, transparent);
+  font-size: 9.5px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  white-space: nowrap;
+  color: var(--terra-clara);
+}
+
+/* --- Estoque --- */
+.mod-estoque {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.estoque-linha {
+  display: grid;
+  grid-template-areas:
+    'nome selo'
+    'trilho trilho';
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 5px 8px;
+}
+
+.estoque-linha__nome {
+  grid-area: nome;
+  overflow: hidden;
+  font-size: 11px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--apagado);
+  transition: color 0.4s var(--suave);
+}
+
+.estoque-linha__trilho {
+  grid-area: trilho;
+  height: 5px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(245, 240, 234, 0.07);
+}
+
+.estoque-linha__nivel {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--areia);
+  transform-origin: left;
+  transition:
+    background 0.5s var(--suave),
+    box-shadow 0.5s var(--suave);
+}
+
+.estoque-linha--repor .estoque-linha__nome {
+  color: var(--papel);
+}
+
+.estoque-linha--repor .estoque-linha__nivel {
+  background: var(--terra-clara);
+  box-shadow: 0 0 10px var(--terra-clara);
+}
+
+.estoque-linha__selo {
+  grid-area: selo;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--terra-clara);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--preto);
+}
+
+/* --- Gráfico --- */
+.grafico {
+  position: relative;
+}
+
+.grafico__svg {
+  display: block;
+  width: 100%;
+  height: 92px;
+  overflow: visible;
+}
+
+.grafico__guia {
+  stroke: var(--linha);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.grafico__linha {
+  fill: none;
+  stroke: var(--terra-clara);
+  stroke-width: 2;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.grafico__ponto {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: 50%;
+  background: var(--areia);
+  box-shadow:
+    0 0 0 4px rgba(232, 118, 59, 0.25),
+    0 0 16px var(--terra-clara);
+}
+
+.grafico__rotulos {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 9.5px;
+  color: var(--apagado-2);
+}
+
+/* --- Agenda da semana --- */
+.mod-agenda {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mod-agenda__dias,
+.mod-agenda__grade {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.mod-agenda__dias span {
+  font-size: 10px;
+  text-align: center;
+  color: var(--apagado-2);
+}
+
+.mod-agenda__celula {
+  height: 24px;
+  border: 1px solid var(--linha);
+  border-radius: 6px;
+  background: rgba(245, 240, 234, 0.04);
+  transition:
+    background 0.45s var(--suave),
+    border-color 0.45s var(--suave),
+    box-shadow 0.45s var(--suave);
+}
+
+.mod-agenda__celula--marcada {
+  border-color: color-mix(in srgb, var(--terra-clara) 55%, transparent);
+  background: color-mix(in srgb, var(--terra) 55%, transparent);
+}
+
+.mod-agenda__celula--nova {
+  background: var(--terra-clara);
+  box-shadow:
+    0 0 0 3px rgba(232, 118, 59, 0.22),
+    0 0 18px rgba(232, 118, 59, 0.55);
+}
+
+/* --- Clientes --- */
+.mod-clientes__busca {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 10px;
+  border: 1px solid var(--linha-forte);
+  border-radius: 8px;
+  background: var(--preto);
+  font-size: 11.5px;
+  color: var(--apagado);
+}
+
+.mod-clientes__digitado {
+  color: var(--papel);
+}
+
+.mod-clientes__placeholder {
+  color: var(--apagado-2);
+}
+
+.mod-clientes__cursor {
+  width: 1px;
+  height: 13px;
+  margin-left: -5px;
+  background: var(--terra-clara);
+  animation: cursor-pisca 1s steps(1) infinite;
+}
+
+@keyframes cursor-pisca {
+  50% {
+    opacity: 0;
+  }
+}
+
+.mod-clientes__lista {
+  margin-top: 6px;
+}
+
+.mod-clientes__item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  overflow: hidden;
+}
+
+.mod-clientes__avatar {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  flex: none;
+  margin-block: 5px;
+  border: 1px solid var(--linha);
+  border-radius: 50%;
+  background: var(--preto-4);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--areia);
+}
+
+.mod-clientes__dados {
+  display: flex;
+  flex-direction: column;
+  font-size: 11.5px;
+}
+
+.mod-clientes__dados small {
+  font-size: 10px;
+  color: var(--apagado-2);
+}
+
+.mod-financeiro {
+  position: relative;
+}
+
+.mod-financeiro .painel-pilula {
+  position: absolute;
+  top: -4px;
+  right: 0;
+}
+
+/* ==========================================================================
+   Painel estreito (celular, ou o painel dentro do comparador)
+   ========================================================================== */
+@container (max-width: 720px) {
+  .painel {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+  }
+
+  .painel__lateral,
+  .painel__financeiro {
+    display: none;
+  }
+
+  .painel__grade {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .painel__agenda {
+    grid-row: auto;
+  }
+
+}
+
+@container (max-width: 460px) {
+  .painel__principal {
+    padding: 14px;
+  }
+
+  .painel__topo {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .painel__resumo {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .painel__resumo > :last-child {
+    display: none;
+  }
+
+  .painel__notificacao {
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+  }
+}

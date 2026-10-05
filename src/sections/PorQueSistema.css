@@ -1,0 +1,299 @@
+.porque__cabecalho {
+  align-items: end;
+  row-gap: 24px;
+  margin-bottom: clamp(48px, 7vw, 88px);
+}
+
+.porque__cabecalho-titulo {
+  grid-column: 1 / span 7;
+}
+
+.porque__cabecalho-texto {
+  grid-column: 9 / -1;
+}
+
+.porque__comparador {
+  max-width: 1120px;
+  /* Altura reservada até o comparador montar (Adiado). */
+  min-height: 580px;
+  margin: 0 auto clamp(64px, 8vw, 120px);
+}
+
+@media (max-width: 760px) {
+  .porque__comparador {
+    min-height: 800px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Mesa bagunçada (lado "sem sistema" do comparador)
+   -------------------------------------------------------------------------- */
+.mesa {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(rgba(232, 201, 168, 0.06) 1px, transparent 1px) 0 0 / 18px 18px,
+    linear-gradient(160deg, #1a1512, #100d0b);
+  font-family: var(--sans);
+}
+
+.mesa__tremor {
+  position: absolute;
+  animation: mesa-treme 2.6s ease-in-out infinite;
+}
+
+.mesa__caderno {
+  top: 16%;
+  left: 7%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: min(300px, 46%);
+  padding: 18px 20px 20px 34px;
+  border-radius: 4px;
+  background: #f2ece4 repeating-linear-gradient(transparent 0 27px, rgba(196, 80, 31, 0.22) 27px 28px);
+  box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.8);
+  color: #2a2420;
+  font-size: 14px;
+  font-style: italic;
+  line-height: 28px;
+  rotate: -5deg;
+}
+
+/* Margem vermelha do caderno. */
+.mesa__caderno::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 24px;
+  width: 1px;
+  background: rgba(196, 80, 31, 0.5);
+}
+
+.mesa__riscado {
+  text-decoration: line-through;
+  text-decoration-color: rgba(196, 80, 31, 0.7);
+}
+
+.mesa__lembrete {
+  padding: 16px 18px;
+  border-radius: 2px;
+  background: var(--areia);
+  box-shadow: 0 14px 28px -10px rgba(0, 0, 0, 0.75);
+  color: var(--preto);
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.mesa__lembrete--0 {
+  top: 12%;
+  right: 12%;
+  rotate: 8deg;
+  animation-delay: -0.8s;
+}
+
+.mesa__lembrete--1 {
+  bottom: 14%;
+  left: 40%;
+  rotate: -7deg;
+  background: #e0a77a;
+  animation-delay: -1.6s;
+}
+
+.mesa__mensagem {
+  top: 46%;
+  right: 8%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 44%;
+  padding: 10px 14px;
+  border: 1px solid var(--linha-forte);
+  border-radius: 4px 14px 14px 14px;
+  background: var(--preto-4);
+  box-shadow: 0 14px 28px -10px rgba(0, 0, 0, 0.8);
+  color: var(--papel);
+  font-size: 13px;
+  rotate: 3deg;
+  animation-delay: -0.4s;
+}
+
+.mesa__planilha {
+  bottom: 9%;
+  left: 6%;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  background: #e9e5df;
+  box-shadow: 0 14px 28px -10px rgba(0, 0, 0, 0.8);
+  color: #2a2420;
+  font-size: 12px;
+  rotate: 4deg;
+  animation-delay: -1.2s;
+}
+
+.mesa__celulas {
+  display: grid;
+  grid-template-columns: 90px 80px;
+}
+
+.mesa__celulas span {
+  padding: 5px 9px;
+  border-right: 1px solid rgba(0, 0, 0, 0.15);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.mesa__celulas--cabeca {
+  background: #d4cec5;
+  font-weight: 600;
+}
+
+/* Tremor pequeno, cada papel no seu tempo. Usa `translate` (propriedade
+   própria), pra não brigar com o `rotate` fixo de cada peça. */
+@keyframes mesa-treme {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  25% {
+    translate: 1.5px -1px;
+  }
+  50% {
+    translate: -1px 1.5px;
+  }
+  75% {
+    translate: 1px 1px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Pares sem/com, item a item
+   -------------------------------------------------------------------------- */
+.porque__linha {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(20px, 3vw, 56px);
+  padding-block: clamp(18px, 2.2vw, 26px);
+  border-top: 1px solid var(--linha);
+}
+
+.porque__linha--cabecalho {
+  padding-bottom: clamp(10px, 1.4vw, 16px);
+  border-top: 0;
+}
+
+.porque__rotulo {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.porque__rotulo--sem {
+  color: var(--apagado-2);
+}
+
+.porque__rotulo--com {
+  color: var(--terra-clara);
+}
+
+.porque__celula {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.porque__icone {
+  flex: none;
+  margin-top: 3px;
+}
+
+/* Etiqueta de texto por célula: escondida no desktop (o rótulo de cima já
+   basta ali), assume o lugar dele no celular quando a comparação empilha. */
+.porque__etiqueta {
+  display: none;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.porque__celula--sem {
+  color: var(--apagado);
+}
+
+.porque__celula--sem .porque__icone,
+.porque__celula--sem .porque__etiqueta {
+  color: var(--apagado-2);
+}
+
+/* Risco desenhado da esquerda pra direita, linha por linha do texto (o
+   fundo de um inline com box-decoration-break: clone se repete em cada
+   linha quebrada). */
+.porque__texto-sem {
+  background: linear-gradient(var(--terra-clara), var(--terra-clara)) no-repeat 0 58% / 0% 1.5px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition:
+    background-size 0.9s var(--suave) 0.15s,
+    color 0.9s var(--suave);
+}
+
+.porque__linha--feita .porque__texto-sem {
+  background-size: 100% 1.5px;
+  color: var(--apagado-2);
+}
+
+.porque__celula--com {
+  color: var(--papel);
+}
+
+.porque__celula--com .porque__icone,
+.porque__celula--com .porque__etiqueta {
+  color: var(--terra-clara);
+}
+
+@media (max-width: 900px) {
+  .porque__cabecalho-titulo,
+  .porque__cabecalho-texto {
+    grid-column: 1 / -1;
+  }
+
+  .mesa__caderno {
+    width: 58%;
+    font-size: 12px;
+    line-height: 24px;
+    background-image: repeating-linear-gradient(transparent 0 23px, rgba(196, 80, 31, 0.22) 23px 24px);
+  }
+
+  .mesa__mensagem {
+    top: 52%;
+    max-width: 58%;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 640px) {
+  .porque__linha {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .porque__linha--cabecalho {
+    display: none;
+  }
+
+  .porque__etiqueta {
+    display: block;
+    flex: none;
+    width: 100%;
+  }
+
+  .porque__celula {
+    flex-wrap: wrap;
+  }
+}

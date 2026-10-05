@@ -5,9 +5,12 @@
 .titulo-linhas__linha {
   display: block;
   overflow: hidden;
-  /* A máscara cortaria as descidas de g, p e y sem esta folga. */
-  padding-bottom: 0.1em;
-  margin-bottom: -0.1em;
+  /* Sem esta folga embaixo, a máscara cortaria as descidas de g, p e y.
+     Sem a de cima, cortava o acento de maiúsculas como o Ó de "NEGÓCIO" —
+     line-height apertado (0.88 em .d-hero) deixa o box mais baixo que a
+     altura real da letra acentuada. */
+  padding-block: 0.18em 0.1em;
+  margin-block: -0.18em -0.1em;
 }
 
 /* A linha destacada recua — é o que quebra a simetria do bloco de título. */

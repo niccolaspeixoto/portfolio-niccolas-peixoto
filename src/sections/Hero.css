@@ -20,6 +20,7 @@
   right: 0;
   bottom: 0;
   width: clamp(420px, 52vw, 860px);
+  transform-origin: 70% 30%;
 }
 
 .hero__foto img {
@@ -42,10 +43,62 @@
   );
 }
 
+/* --------------------------------------------------------------------------
+   Feixe de luz. Elipse comprida, inclinada, centrada no rosto, em modo
+   screen: acende a foto com luz quente em vez de pintar por cima dela.
+   -------------------------------------------------------------------------- */
+/* Sem mix-blend-mode: com o feixe respirando em loop, o modo screen
+   obrigava a repintar a área da foto inteira a cada quadro. Alfa comum,
+   mais baixo, dá quase o mesmo calor e anima só na GPU. */
+.hero__feixe {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero__feixe-luz {
+  position: absolute;
+  top: 30%;
+  left: 68%;
+  width: 130vw;
+  height: 38vh;
+  background: radial-gradient(
+    ellipse closest-side,
+    rgba(232, 118, 59, 0.24) 0%,
+    rgba(196, 80, 31, 0.1) 42%,
+    transparent 100%
+  );
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(32deg);
+  animation:
+    feixe-entra 2.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards,
+    feixe-respira 7s ease-in-out 3s infinite;
+}
+
+@keyframes feixe-entra {
+  from {
+    opacity: 0;
+    transform: translate(-82%, -95%) rotate(32deg) scale(0.45);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(32deg) scale(1);
+  }
+}
+
+@keyframes feixe-respira {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.72;
+  }
+}
+
 /* Cortina que fecha a cena: opacidade controlada pelo Framer Motion via
-   scrollYProgress, não por CSS. Fica acima de tudo, inclusive do texto,
-   porque só começa a aparecer quando o visitante já está quase saindo
-   do hero (ver Hero.jsx). */
+   scrollYProgress. Fica acima de tudo, inclusive do texto. */
 .hero__cortina {
   position: absolute;
   inset: 0;
@@ -57,11 +110,30 @@
 /* --------------------------------------------------------------------------
    Texto
    -------------------------------------------------------------------------- */
-/* O título usa a largura inteira do quadro e avança por cima do lado escuro
-   da foto. Confinar ele ao espaço livre à esquerda obrigava a derrubar a
-   fonte para ~3,9rem e o impacto morria. */
+.hero__quadro {
+  position: relative;
+  z-index: 2;
+}
+
+/* Em telas largas, a centralização padrão do .quadro empurra o texto pra
+   direita — sobra espaço vazio entre a borda da janela e o título bem na
+   faixa que mais precisamos: a distância até a foto. Puxando o quadro do
+   hero pra perto da borda esquerda (em vez de centralizado), o texto ganha
+   essa folga de volta sem precisar diminuir a fonte. */
+@media (min-width: 901px) {
+  .quadro.hero__quadro {
+    margin-left: 0;
+    padding-left: clamp(24px, 4vw, 96px);
+  }
+}
+
 .hero__texto {
   max-width: 100%;
+}
+
+.hero__linha {
+  display: block;
+  white-space: nowrap;
 }
 
 .hero__lead {
@@ -86,13 +158,69 @@
 }
 
 /* --------------------------------------------------------------------------
+   Indicador de rolagem
+   -------------------------------------------------------------------------- */
+.hero__rolar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(16px, 3.4vh, 34px);
+  z-index: 2;
+  width: max-content;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.hero__rolar-texto {
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--apagado-2);
+}
+
+.hero__rolar-trilho {
+  position: relative;
+  width: 1px;
+  height: 46px;
+  overflow: hidden;
+  background: var(--linha);
+}
+
+.hero__rolar-ponto {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 16px;
+  background: linear-gradient(transparent, var(--terra-clara));
+  animation: rolar-desce 1.9s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes rolar-desce {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(300%);
+  }
+}
+
+/* --------------------------------------------------------------------------
    Telas menores. A foto deixa de ser lateral e vira fundo da seção inteira,
    com o véu cobrindo mais para o texto continuar legível por cima.
    -------------------------------------------------------------------------- */
 @media (max-width: 900px) {
   .hero {
     min-height: auto;
-    padding-top: clamp(132px, 22vh, 180px);
+    /* Teto maior que no desktop (era 180px): dá a folga vertical que o
+       rosto precisa pra não ficar bem atrás da primeira linha do título
+       (ver object-position abaixo — testado nas larguras 375-900px). */
+    padding-top: clamp(132px, 26vh, 230px);
     padding-bottom: clamp(48px, 9vw, 72px);
   }
 
@@ -101,7 +229,12 @@
   }
 
   .hero__foto img {
-    object-position: 58% 10%;
+    /* Empurra o corte um pouco pra baixo (era 10%): sobra mais cabelo no
+       topo e os olhos ficam abaixo da moldura visível, não embaixo do
+       título. Testado nas duas pontas do breakpoint (375px e 900px) —
+       acima de 20% os olhos voltam a aparecer perto do título em telas
+       largas do breakpoint (perto de 900px). */
+    object-position: 58% 20%;
   }
 
   /* No celular o texto passa por cima do rosto inteiro, então o véu precisa
@@ -115,12 +248,23 @@
     );
   }
 
+  .hero__feixe-luz {
+    top: 18%;
+    left: 60%;
+    width: 160vw;
+    height: 28vh;
+  }
+
   /* Sem gutter grande, a inclinação em vw é outra. */
   .hero__texto {
-    --t-hero: 7.6vw;
+    --t-hero: 5.7vw;
   }
 
   .hero__lead {
     max-width: 34ch;
+  }
+
+  .hero__rolar {
+    display: none;
   }
 }

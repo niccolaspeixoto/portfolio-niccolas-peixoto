@@ -1,6 +1,69 @@
+/* Fica atrás da chamada final (que tem z-index 1): o conteúdo daqui é
+   revelado por baixo dela conforme a página termina. */
 .rodape {
-  border-top: 1px solid var(--linha);
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
   background: var(--preto-2);
+}
+
+.rodape__interno {
+  will-change: transform;
+}
+
+/* --------------------------------------------------------------------------
+   Letreiro gigante (ver Letreiro.jsx)
+   -------------------------------------------------------------------------- */
+.rodape__letreiro {
+  /* Proporção do letreiro medido, reservada antes de ele montar. */
+  aspect-ratio: 6.2 / 1;
+  padding-inline: clamp(12px, 2vw, 32px);
+  margin-top: clamp(8px, 2vw, 24px);
+}
+
+.letreiro {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.letreiro__texto {
+  font-family: var(--display);
+  font-weight: 800;
+  font-stretch: var(--largura-display);
+  font-size: 200px;
+  letter-spacing: -0.03em;
+  fill: transparent;
+}
+
+.letreiro__medida {
+  opacity: 0;
+}
+
+.letreiro__contorno {
+  stroke: var(--linha-forte);
+  stroke-width: 1.2;
+  stroke-dasharray: 6000;
+}
+
+.letreiro__aceso {
+  stroke-width: 1.6;
+}
+
+/* Com mouse: as letras só acendem onde a luz passa, e só com o cursor em
+   cima. No toque não há hover — o letreiro fica aceso inteiro, mais fraco. */
+.letreiro--interativo .letreiro__aceso {
+  opacity: 0;
+  transition: opacity 0.4s var(--suave);
+}
+
+.letreiro--interativo.letreiro--aceso .letreiro__aceso {
+  opacity: 1;
+}
+
+.letreiro:not(.letreiro--interativo) .letreiro__aceso {
+  opacity: 0.55;
 }
 
 .rodape__grade {
@@ -75,7 +138,7 @@
   font-size: 0.72rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--apagado-2);
+  color: var(--apagado);
 }
 
 .rodape__link-valor {

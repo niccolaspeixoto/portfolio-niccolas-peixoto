@@ -1,108 +1,161 @@
 /* Sem max-width em ch: o título é Archivo expandido e `ch` mede a fonte do
    corpo, o que picotava o título em quatro linhas estreitas. */
 .processo__cabecalho {
-  margin-bottom: clamp(52px, 7vw, 92px);
-  max-width: min(100%, 720px);
+  max-width: min(100%, 760px);
+  margin-bottom: clamp(40px, 6vw, 80px);
 }
 
 /* --------------------------------------------------------------------------
-   Trilha vertical. O fio fica atrás; cada etapa pendura uma marca nele.
+   Linha do tempo
    -------------------------------------------------------------------------- */
-.processo__trilha {
-  /* Um valor só para o recuo, reaproveitado negado pela marca. Antes eram
-     dois clamps independentes e as marcas não encostavam no fio. */
-  --recuo: clamp(30px, 5vw, 72px);
+.linha-tempo {
+  --recuo: clamp(34px, 5.5vw, 88px);
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(40px, 5.5vw, 76px);
   padding-left: var(--recuo);
 }
 
-.processo__fio {
+.linha-tempo__trilho {
   position: absolute;
-  top: 6px;
-  bottom: 6px;
+  top: 0;
+  bottom: 0;
   left: 0;
-  width: 1px;
+  width: 2px;
+  border-radius: 2px;
   background: var(--linha);
 }
 
-.processo__fio-ativo {
-  display: block;
-  width: 100%;
-  background: var(--terra-clara);
+.linha-tempo__feixe {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(to bottom, transparent, var(--terra) 8%, var(--terra-clara) 70%, var(--areia));
+  box-shadow: 0 0 18px rgba(232, 118, 59, 0.65);
+  transform-origin: top;
 }
 
+.linha-tempo__ponta {
+  position: absolute;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  background: var(--areia);
+  box-shadow:
+    0 0 0 5px rgba(232, 118, 59, 0.25),
+    0 0 26px 6px var(--terra-clara);
+}
+
+/* --------------------------------------------------------------------------
+   Etapa: título preso à esquerda, conteúdo passando à direita.
+   -------------------------------------------------------------------------- */
 .etapa {
-  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  column-gap: clamp(12px, 3vw, 48px);
-  row-gap: 10px;
-  align-items: start;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(24px, 4vw, 72px);
+  padding-block: clamp(36px, 6vw, 96px);
 }
 
-/* Centrada no fio, na altura da linha de número. */
+.etapa__fixo {
+  position: sticky;
+  top: 30vh;
+  align-self: start;
+}
+
+/* Marca no trilho, presa junto com o título. */
 .etapa__marca {
   position: absolute;
-  top: 5px;
-  left: calc(var(--recuo) * -1);
-  width: 9px;
-  height: 9px;
+  top: 6px;
+  left: calc(var(--recuo) * -1 + 1px);
+  width: 13px;
+  height: 13px;
+  border: 1px solid var(--terra);
   border-radius: 50%;
   background: var(--preto);
-  border: 1px solid var(--terra);
-  transform: translateX(-4px);
+  transform: translateX(-50%);
+  transition:
+    background 0.5s var(--suave),
+    box-shadow 0.5s var(--suave);
 }
 
-.etapa__cabeca {
-  grid-column: 1 / -1;
-  display: flex;
-  align-items: baseline;
-  gap: 16px;
+.etapa--ativa .etapa__marca {
+  background: var(--terra-clara);
+  box-shadow: 0 0 18px var(--terra-clara);
 }
 
 .etapa__n {
+  display: block;
+  margin-bottom: 10px;
   font-family: var(--display);
   font-weight: 700;
   font-stretch: 112%;
-  font-size: 0.78rem;
-  letter-spacing: 0.08em;
-  color: var(--terra-clara);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
   font-variant-numeric: tabular-nums;
-}
-
-.etapa__prazo {
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
-  color: var(--apagado-2);
+  color: var(--terra-clara);
 }
 
 .etapa__titulo {
   font-family: var(--display);
-  font-weight: 600;
-  font-stretch: 106%;
-  font-size: clamp(1.32rem, 2.4vw, 2.1rem);
-  line-height: 1.08;
-  letter-spacing: -0.025em;
+  font-weight: 800;
+  font-stretch: var(--largura-display);
+  font-size: clamp(1.7rem, 3.4vw, 3.1rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--apagado-2);
+  transition: color 0.6s var(--suave);
+}
+
+.etapa--ativa .etapa__titulo {
   color: var(--papel);
 }
 
+.etapa__prazo {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 5px 12px;
+  border: 1px solid var(--linha-forte);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--areia);
+}
+
+.etapa__conteudo {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding-top: 26px;
+}
+
+.etapa__visual-adiado {
+  min-height: 150px;
+}
+
 .etapa__texto {
-  color: var(--apagado);
-  font-size: 0.95rem;
-  line-height: 1.62;
   max-width: 46ch;
+  font-size: clamp(1rem, 1.15vw, 1.1rem);
+  line-height: 1.62;
+  color: var(--apagado);
 }
 
 @media (max-width: 860px) {
   .etapa {
     grid-template-columns: 1fr;
-    gap: 10px;
+    gap: 6px;
   }
 
-  .processo__cabecalho {
-    max-width: none;
+  .etapa__fixo {
+    position: relative;
+    top: 0;
+  }
+
+  .etapa__titulo {
+    color: var(--papel);
+  }
+
+  .etapa__conteudo {
+    padding-top: 10px;
   }
 }

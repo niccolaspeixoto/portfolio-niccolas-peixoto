@@ -1,7 +1,7 @@
 .problemas__cabecalho {
   align-items: end;
   row-gap: 24px;
-  margin-bottom: clamp(48px, 7vw, 88px);
+  margin-bottom: clamp(56px, 8vw, 120px);
 }
 
 .problemas__cabecalho-titulo {
@@ -9,49 +9,109 @@
 }
 
 .problemas__cabecalho-texto {
-  grid-column: 9 / -1;
+  grid-column: 8 / -1;
+}
+
+/* O parágrafo de abertura acende palavra por palavra conforme o scroll —
+   maior que um lead comum pra o efeito ter onde acontecer. */
+.problemas__intro {
+  font-family: var(--display);
+  font-weight: 500;
+  font-stretch: 104%;
+  font-size: clamp(1.15rem, 1.7vw, 1.6rem);
+  line-height: 1.38;
+  letter-spacing: -0.012em;
+  color: var(--papel);
 }
 
 /* --------------------------------------------------------------------------
-   Lista. Cada item revela ao entrar na tela, um atrás do outro — sem pin,
-   sem sticky (ver Problemas.jsx pro motivo).
+   Corpo: lista à esquerda, painel preso à direita.
    -------------------------------------------------------------------------- */
-.problemas__pilha {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(20px, 3vw, 32px);
+.problemas__corpo--preso {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(40px, 6vw, 110px);
 }
 
-.problema__cartao {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(28px, 4vw, 64px);
-  padding: clamp(28px, 3.6vw, 56px);
-  border: 1px solid var(--linha-forte);
-  border-radius: 16px;
-  background: var(--preto-2);
+.problemas__lista {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 4vw, 48px);
+}
+
+.problemas__corpo--preso .problemas__lista {
+  gap: 0;
+}
+
+.problema {
+  position: relative;
+  padding-left: clamp(22px, 2.6vw, 36px);
+  border-left: 1px solid var(--linha);
+}
+
+/* Cada item ocupa quase uma tela: é o espaço de scroll que o painel ao
+   lado usa pra trocar de cena. */
+.problemas__corpo--preso .problema {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 78vh;
+  opacity: 0.32;
+  transition: opacity 0.6s var(--suave);
+}
+
+.problemas__corpo--preso .problema--ativo {
+  opacity: 1;
+}
+
+/* Trecho aceso da linha lateral no item ativo. */
+.problema::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -1px;
+  width: 1px;
+  background: linear-gradient(transparent, var(--terra-clara) 30%, var(--terra-clara) 70%, transparent);
+  transform: scaleY(0);
+  transition: transform 0.8s var(--suave);
+}
+
+.problema--ativo::before {
+  transform: scaleY(1);
+}
+
+.problema__n {
+  display: block;
+  margin-bottom: 18px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-stretch: 112%;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  color: var(--terra-clara);
 }
 
 .problema__frase {
+  max-width: 22ch;
   color: var(--papel);
-  max-width: 20ch;
 }
 
 .problema__custo {
+  max-width: 40ch;
   margin-top: clamp(14px, 1.8vw, 22px);
-  color: var(--terra-clara);
   font-size: clamp(0.95rem, 1.1vw, 1.05rem);
   line-height: 1.55;
-  max-width: 34ch;
+  color: var(--terra-clara);
 }
 
 .problema__resposta {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  align-self: start;
-  padding-left: clamp(0px, 2vw, 32px);
-  border-left: 1px solid var(--linha);
+  gap: 8px;
+  margin-top: clamp(22px, 2.6vw, 32px);
+  padding-top: clamp(18px, 2vw, 24px);
+  border-top: 1px solid var(--linha);
 }
 
 .problema__solucao {
@@ -64,14 +124,56 @@
 }
 
 .problema__solucao-texto {
-  color: var(--apagado);
+  max-width: 46ch;
   font-size: 0.93rem;
   line-height: 1.62;
-  max-width: 44ch;
+  color: var(--apagado);
 }
 
-.problema__resposta .agente {
-  margin-top: 10px;
+.problema__cena-fluxo {
+  height: 400px;
+  margin-top: 28px;
+}
+
+/* --------------------------------------------------------------------------
+   Painel preso
+   -------------------------------------------------------------------------- */
+.problemas__painel-fixo {
+  position: sticky;
+  top: calc(50vh - 250px);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.problemas__tela {
+  flex: 1;
+  height: 500px;
+}
+
+.problemas__cena {
+  height: 100%;
+}
+
+.problemas__marcador {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.problemas__marca {
+  width: 4px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--linha-forte);
+  transition:
+    background 0.5s var(--suave),
+    height 0.5s var(--suave);
+}
+
+.problemas__marca--ativa {
+  height: 44px;
+  background: var(--terra-clara);
 }
 
 @media (max-width: 900px) {
@@ -80,19 +182,13 @@
     grid-column: 1 / -1;
   }
 
-  .problema__cartao {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-
-  .problema__resposta {
-    padding-left: 0;
-    padding-top: 22px;
-    border-left: 0;
-    border-top: 1px solid var(--linha);
-  }
-
   .problema__frase {
     max-width: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .problema__cena-fluxo {
+    height: 380px;
   }
 }

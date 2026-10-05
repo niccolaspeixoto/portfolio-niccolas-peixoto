@@ -1,10 +1,3 @@
-// TODO: substituir os hrefs "#" pelos seus links reais.
-const socials = [
-  { label: "Niccolas Peixoto no LinkedIn", href: "#", highlight: "#0a66c2", icon: "linkedin" },
-  { label: "Niccolas Peixoto no GitHub", href: "#", highlight: "var(--areia)", icon: "github" },
-  { label: "Niccolas Peixoto no Instagram", href: "#", highlight: "#e4405f", icon: "instagram" },
-];
-
 function SocialIcon({ name = "linkedin" }) {
   if (name === "linkedin") {
     return <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5.1 3.5a2.1 2.1 0 1 0 0 4.2 2.1 2.1 0 0 0 0-4.2ZM3.3 8.9h3.6V20H3.3V8.9Zm5.8 0h3.4v1.5h.1c.5-.9 1.6-1.9 3.5-1.9 3.7 0 4.4 2.4 4.4 5.6V20h-3.6v-5.1c0-1.2 0-2.8-1.7-2.8s-2 1.3-2 2.7V20H9.1V8.9Z" /></svg>;
@@ -17,9 +10,11 @@ function SocialIcon({ name = "linkedin" }) {
   return <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="2" /><circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2" /><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" /></svg>;
 }
 
-export function SocialHighlightCards() {
+/** @param {{ rotulo: string, href: string, cor: string, icone: string }[]} redes */
+export function SocialHighlightCards({ redes }) {
+  const socials = redes.map((r) => ({ label: r.rotulo, href: r.href, highlight: r.cor, icon: r.icone }));
   return (
-    <nav className="flex items-center justify-center gap-3.5 max-[420px]:gap-2.5" aria-label="Social links">
+    <nav className="flex items-center justify-center gap-3.5 max-[420px]:gap-2.5" aria-label="Redes sociais">
       {socials.map((social) => (
         <a
           className="group relative isolate grid size-16 place-items-center overflow-hidden rounded-md border border-[var(--linha)] bg-[var(--preto-2)] text-current no-underline shadow-[inset_0_1px_0_rgba(255,255,255,.035),0_1px_0_rgba(255,255,255,.08)] transition-[border-color,background-color] duration-[260ms] ease-[cubic-bezier(.22,1,.36,1)] hover:border-[color-mix(in_srgb,currentColor_28%,var(--linha-forte))] hover:bg-[var(--preto-3)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,.06),0_10px_24px_rgba(0,0,0,.28),0_0_22px_color-mix(in_srgb,currentColor_12%,transparent)] focus-visible:border-[color-mix(in_srgb,currentColor_28%,var(--linha-forte))] focus-visible:bg-[var(--preto-3)] focus-visible:shadow-[inset_0_1px_0_rgba(255,255,255,.06),0_10px_24px_rgba(0,0,0,.28),0_0_22px_color-mix(in_srgb,currentColor_12%,transparent)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current motion-reduce:duration-[.01ms] max-[420px]:size-14"

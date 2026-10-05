@@ -1,55 +1,76 @@
 import { useRef } from 'react';
-import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import { motion, useInView, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import Reveal from '../components/Reveal';
+import Adiado from '../components/Adiado';
 import SecaoComTransicao from '../components/SecaoComTransicao';
+import VisualEtapa from './processo/VisuaisEtapa';
 import { processo } from '../data/conteudo';
 import './Processo.css';
 
-/**
- * As quatro etapas numa linha vertical que se desenha conforme a página
- * desce. A numeração fica aqui porque a ordem das etapas é a informação:
- * nas outras seções ela saiu.
- */
-export default function Processo() {
-  const trilha = useRef(null);
-  const semMovimento = useReducedMotion();
-
-  const { scrollYProgress } = useScroll({
-    target: trilha,
-    offset: ['start 72%', 'end 82%'],
-  });
-  const altura = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
+function Etapa({ item }) {
+  const ref = useRef(null);
+  const naTela = useInView(ref, { amount: 0.35 });
+  const noCentro = useInView(ref, { margin: '-42% 0px -42% 0px' });
 
   return (
-    <SecaoComTransicao id="processo" className="faixa processo">
+    <li ref={ref} className={`etapa${noCentro ? ' etapa--ativa' : ''}`}>
+      <div className="etapa__fixo">
+        <span className="etapa__marca" aria-hidden="true" />
+        <span className="etapa__n">{item.n}</span>
+        <h3 className="etapa__titulo">{item.titulo}</h3>
+        <span className="etapa__prazo">{item.prazo}</span>
+      </div>
+
+      <div className="etapa__conteudo">
+        <Reveal>
+          <p className="etapa__texto">{item.texto}</p>
+        </Reveal>
+        <Reveal atraso={0.12} className="etapa__visual">
+          <Adiado className="etapa__visual-adiado">
+            <VisualEtapa visual={item.visual} ativo={naTela} />
+          </Adiado>
+        </Reveal>
+      </div>
+    </li>
+  );
+}
+
+/**
+ * Timeline (Manu Arora / Aceternity, MIT:
+ * https://21st.dev/@manuarora700/components/timeline): o feixe terracota
+ * enche a linha conforme a página desce, com um ponto aceso na ponta — é a
+ * brasa do site virando trilho. O título de cada etapa fica preso enquanto
+ * o conteúdo dela passa.
+ */
+export default function Processo() {
+  const linha = useRef(null);
+  const semMovimento = useReducedMotion();
+
+  const { scrollYProgress } = useScroll({ target: linha, offset: ['start 50%', 'end 60%'] });
+  const topoPonta = useTransform(scrollYProgress, (v) => `${v * 100}%`);
+
+  return (
+    <SecaoComTransicao id="processo" data-brasa="processo" className="faixa processo" comEscala={false}>
       <div className="quadro">
         <Reveal className="processo__cabecalho">
           <h2 className="d-secao">{processo.titulo}</h2>
         </Reveal>
 
-        <ol className="processo__trilha" ref={trilha}>
-          {/* Fio apagado ao fundo e, por cima, o fio terracota que cresce. */}
-          <span className="processo__fio" aria-hidden="true">
+        <div className="linha-tempo" ref={linha}>
+          <div className="linha-tempo__trilho" aria-hidden="true">
             <motion.span
-              className="processo__fio-ativo"
-              style={semMovimento ? { height: '100%' } : { height: altura }}
+              className="linha-tempo__feixe"
+              style={{ scaleY: semMovimento ? 1 : scrollYProgress }}
             />
-          </span>
+            {!semMovimento && <motion.span className="linha-tempo__ponta" style={{ top: topoPonta }} />}
+          </div>
 
-          {processo.itens.map((item, i) => (
-            <Reveal como="li" key={item.n} className="etapa" atraso={i * 0.06}>
-              <span className="etapa__marca" aria-hidden="true" />
-
-              <div className="etapa__cabeca">
-                <span className="etapa__n">{item.n}</span>
-                <span className="etapa__prazo">{item.prazo}</span>
-              </div>
-
-              <h3 className="etapa__titulo">{item.titulo}</h3>
-              <p className="etapa__texto">{item.texto}</p>
-            </Reveal>
-          ))}
-        </ol>
+          <ol className="linha-tempo__etapas">
+            {processo.itens.map((item) => (
+              <Etapa key={item.n} item={item} />
+            ))}
+          </ol>
+        </div>
       </div>
     </SecaoComTransicao>
   );

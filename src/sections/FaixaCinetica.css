@@ -1,0 +1,70 @@
+.faixa-cinetica {
+  position: relative;
+  padding-block: clamp(56px, 8vw, 120px);
+  overflow: hidden;
+  border-top: 1px solid var(--linha);
+}
+
+/* Uma leve inclinação: a faixa atravessa a página em vez de só empilhar
+   entre duas seções. Mais larga que a seção pra não abrir buraco nos
+   cantos ao girar — e a seção corta o excesso (overflow hidden), senão
+   a página ganharia rolagem lateral. */
+.faixa-cinetica__giro {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4px, 1vw, 14px);
+  width: 110%;
+  margin-left: -5%;
+  rotate: -2deg;
+}
+
+.faixa-linha {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.faixa-linha__trilho {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.faixa-linha__copia {
+  display: flex;
+  align-items: center;
+  flex: none;
+}
+
+.faixa-linha__item {
+  padding-inline: clamp(18px, 2.2vw, 36px);
+  font-family: var(--display);
+  font-weight: 800;
+  font-stretch: var(--largura-display);
+  font-size: clamp(2.6rem, 7.4vw, 7rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.faixa-linha--cheia .faixa-linha__item {
+  color: var(--terra);
+}
+
+.faixa-linha--vazada .faixa-linha__item {
+  color: transparent;
+  -webkit-text-stroke: 1.2px var(--areia);
+  opacity: 0.75;
+}
+
+.faixa-linha__separador {
+  flex: none;
+  width: clamp(10px, 1.1vw, 16px);
+  height: clamp(10px, 1.1vw, 16px);
+  border-radius: 50%;
+  background: var(--areia);
+  box-shadow: 0 0 18px rgba(232, 118, 59, 0.8);
+}
+
+.faixa-linha--vazada .faixa-linha__separador {
+  background: var(--terra-clara);
+}

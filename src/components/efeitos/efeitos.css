@@ -1,0 +1,106 @@
+/* --------------------------------------------------------------------------
+   Texto em corte vertical (letra a letra)
+   A máscara é a palavra: overflow hidden com folga em cima (acento de
+   maiúscula) e embaixo (descida de g, p, y), compensada por margem
+   negativa pra linha não ficar mais alta — mesma correção do TituloLinhas.
+   -------------------------------------------------------------------------- */
+.texto-corte__palavra {
+  display: inline-flex;
+  overflow: hidden;
+  padding-block: 0.18em 0.1em;
+  margin-block: -0.18em -0.1em;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+/* Sem will-change aqui: são dezenas de letras, e cada uma viraria uma
+   camada própria na GPU pra uma animação que só roda uma vez. */
+.texto-corte__letra {
+  display: inline-block;
+}
+
+/* --------------------------------------------------------------------------
+   Palavra que troca. Todas as palavras ficam empilhadas na mesma célula —
+   as invisíveis só existem pra largura ser a da maior.
+   -------------------------------------------------------------------------- */
+/* Folga de cima menor que a do TextoCorte: as palavras que giram não têm
+   acento, e folga sobrando vira janela pra palavra que sai aparecer. */
+.palavra-giratoria {
+  display: inline-grid;
+  overflow: hidden;
+  padding-block: 0.05em 0.1em;
+  margin-block: -0.05em -0.1em;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.palavra-giratoria > * {
+  grid-area: 1 / 1;
+}
+
+.palavra-giratoria__medida {
+  visibility: hidden;
+}
+
+.palavra-giratoria__atual {
+  will-change: transform;
+}
+
+/* --------------------------------------------------------------------------
+   Botão vivo: borda em movimento + brilho + magnetismo
+   -------------------------------------------------------------------------- */
+.botao--vivo {
+  box-shadow: 0 0 34px -10px rgba(232, 118, 59, 0.6);
+  transition: box-shadow 0.4s var(--suave), background 0.4s var(--suave),
+    color 0.4s var(--suave);
+}
+
+.botao--vivo:hover {
+  box-shadow: 0 0 48px -8px rgba(232, 118, 59, 0.8);
+}
+
+/* O anel é recortado pela máscara (só a borda de 1px aparece); dentro dele
+   gira um quadrado com o gradiente. Girar com `rotate` roda na GPU —
+   animar o ângulo do gradiente direto obrigaria o navegador a recalcular
+   estilo e repintar o botão a cada quadro. */
+.botao-vivo__borda {
+  position: absolute;
+  inset: -2px;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+
+.botao-vivo__giro {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 260%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  background: conic-gradient(
+    transparent 0deg 270deg,
+    rgba(232, 118, 59, 0.55) 315deg,
+    var(--areia) 348deg,
+    transparent 360deg
+  );
+  animation: giro-borda 3.4s linear infinite;
+}
+
+@keyframes giro-borda {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .botao-vivo__giro {
+    animation: none;
+    rotate: 300deg;
+  }
+}

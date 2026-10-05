@@ -39,11 +39,11 @@
   /* A voz de display vem da largura (font-stretch), não de uma segunda fonte. */
   --largura-display: 118%;
 
-  /* Medido no navegador: em Archivo expandido caixa alta, a linha mais longa
-     ocupa cerca de 11,4x o font-size. Os tamanhos abaixo saem dessa conta,
-     com folga, para nenhuma linha estourar a máscara que corta as linhas.
-     Teto de 6rem do craft-floor respeitado. */
-  --t-hero: clamp(2rem, 5.6vw, 5.6rem);
+  /* Tamanho grande de propósito: o texto pode avançar por cima da foto,
+     inclusive do rosto, em telas médias — decisão consciente, não bug.
+     Ver o mapeamento de "quanto invade em cada largura" no histórico desta
+     seção. Teto de 6rem do craft-floor respeitado. */
+  --t-hero: clamp(1.5rem, 4.2vw, 4.4rem);
   --t-secao: clamp(1.9rem, 4.4vw, 3.8rem);
   --t-bloco: clamp(1.3rem, 2vw, 1.9rem);
   --t-corpo: clamp(1rem, 1.05vw, 1.075rem);
@@ -190,6 +190,12 @@ ol {
   padding-block: clamp(96px, 13vw, 200px);
 }
 
+/* Lugar guardado pra uma seção que ainda está chegando (App.jsx carrega
+   as seções de baixo em pedaços separados). */
+.secao-chegando {
+  min-height: 100vh;
+}
+
 /* Fio de separação entre seções, alinhado à grade e não à borda da tela. */
 .fio {
   height: 1px;
@@ -244,11 +250,13 @@ ol {
   max-width: 46ch;
 }
 
+/* --apagado e não --apagado-2: em 0.82rem o tom mais fraco não chega no
+   contraste mínimo (AA) contra o fundo. */
 .miudo {
   font-size: 0.82rem;
   line-height: 1.5;
   letter-spacing: 0.02em;
-  color: var(--apagado-2);
+  color: var(--apagado);
 }
 
 /* Numeral grande e vazado usado como marcador editorial de item. */
@@ -361,6 +369,89 @@ ol {
   .botao--brilho::before {
     transition: none;
   }
+}
+
+/* --------------------------------------------------------------------------
+   Superfície com brilho: mesma mecânica do botão acima, só que pra cards de
+   conteúdo (Pilares, Sistema). Um brilho terracota acompanha o cursor por
+   dentro e a borda inteira acende, em vez do brilho vazando pra fora como
+   no botão — aqui o card costuma estar colado a outro numa grade, e o
+   brilho vazando invadiria a célula vizinha.
+   -------------------------------------------------------------------------- */
+.superficie-brilho {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px transparent;
+  transition: box-shadow 0.4s var(--suave);
+}
+
+.superficie-brilho::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s var(--suave);
+  background: radial-gradient(
+    420px circle at var(--brilho-x, 50%) var(--brilho-y, 50%),
+    color-mix(in srgb, var(--terra-clara) 15%, transparent) 0%,
+    transparent 70%
+  );
+}
+
+.superficie-brilho:hover::before,
+.superficie-brilho:focus-within::before {
+  opacity: 1;
+}
+
+.superficie-brilho:hover,
+.superficie-brilho:focus-within {
+  box-shadow: inset 0 0 0 1px var(--terra-clara);
+}
+
+/* --------------------------------------------------------------------------
+   Borda brilhante: arco de luz na borda que aponta pro cursor (ângulo e
+   ligado/desligado escritos por useBordaBrilhante). O ::after é um anel —
+   o miolo é recortado pela máscara, só a borda pinta.
+   -------------------------------------------------------------------------- */
+@property --angulo-borda {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.borda-brilhante {
+  position: relative;
+}
+
+.borda-brilhante::after {
+  content: '';
+  position: absolute;
+  /* inset 0, não negativo: os cards que usam isto têm overflow hidden,
+     que cortaria um anel desenhado por cima da borda. */
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  padding: 1.5px;
+  pointer-events: none;
+  background: conic-gradient(
+    from calc(var(--angulo-borda) - 50deg),
+    transparent 0deg,
+    var(--terra-escura) 18deg,
+    var(--terra-clara) 38deg,
+    var(--areia) 50deg,
+    var(--terra-clara) 62deg,
+    var(--terra-escura) 82deg,
+    transparent 100deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: var(--borda-ativa, 0);
+  transition:
+    opacity 0.45s var(--suave),
+    --angulo-borda 0.35s var(--suave);
 }
 
 .botao--linha {

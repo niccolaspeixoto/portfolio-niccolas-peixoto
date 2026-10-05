@@ -1,0 +1,102 @@
+.comparador__caixa {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--linha-forte);
+  border-radius: 22px;
+  background: var(--preto-2);
+  box-shadow:
+    0 50px 100px -40px rgba(0, 0, 0, 0.85),
+    0 0 120px -40px rgba(232, 118, 59, 0.3);
+  cursor: ew-resize;
+  /* Rolagem vertical continua com o dedo; o arraste horizontal é nosso. */
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.comparador__lado {
+  position: relative;
+}
+
+/* O lado "antes" cobre o "depois" por inteiro e é recortado por cima. */
+.comparador__lado--antes {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.comparador__rotulos {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.comparador__rotulo {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.comparador__rotulo--antes {
+  border: 1px solid var(--linha-forte);
+  color: var(--apagado);
+}
+
+.comparador__rotulo--depois {
+  background: color-mix(in srgb, var(--terra) 85%, transparent);
+  color: var(--papel);
+}
+
+/* --- Alça --- */
+.comparador__alca {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 4;
+  width: 0;
+}
+
+.comparador__alca:focus-visible {
+  outline: none;
+}
+
+.comparador__alca:focus-visible .comparador__alca-botao {
+  outline: 2px solid var(--papel);
+  outline-offset: 3px;
+}
+
+.comparador__alca-linha {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -1px;
+  width: 2px;
+  background: linear-gradient(transparent, var(--terra-clara) 15%, var(--areia) 50%, var(--terra-clara) 85%, transparent);
+  box-shadow: 0 0 18px rgba(232, 118, 59, 0.7);
+}
+
+.comparador__alca-botao {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--terra);
+  color: var(--papel);
+  box-shadow:
+    0 0 0 6px rgba(232, 118, 59, 0.18),
+    0 0 30px rgba(232, 118, 59, 0.6);
+  transform: translate(-50%, -50%);
+}
+
+.comparador__instrucao {
+  margin-top: 14px;
+  text-align: center;
+}

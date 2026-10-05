@@ -4,15 +4,20 @@
   left: 0;
   right: 0;
   z-index: 900;
-  transition: background 0.5s var(--suave), border-color 0.5s var(--suave),
-    backdrop-filter 0.5s var(--suave);
-  border-bottom: 1px solid transparent;
+  padding-top: 0;
+  transition:
+    padding-top 0.5s var(--suave),
+    transform 0.55s var(--suave);
+}
+
+/* Some ao descer rápido, volta ao subir: o conteúdo ganha a tela inteira
+   enquanto é lido, e o menu está a um gesto de distância. */
+.nav--oculto {
+  transform: translateY(-130%);
 }
 
 .nav--rolou {
-  background: rgba(13, 13, 13, 0.82);
-  backdrop-filter: blur(14px);
-  border-bottom-color: var(--linha);
+  padding-top: 14px;
 }
 
 .nav__interno {
@@ -21,6 +26,26 @@
   justify-content: space-between;
   gap: 32px;
   padding-block: 18px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  transition:
+    background 0.5s var(--suave),
+    border-color 0.5s var(--suave),
+    backdrop-filter 0.5s var(--suave),
+    box-shadow 0.5s var(--suave),
+    max-width 0.5s var(--suave),
+    padding-inline 0.5s var(--suave);
+}
+
+/* Ao rolar, o nav solta da borda da janela e vira uma pílula flutuante,
+   em vez de continuar uma barra reta grudada no topo. */
+.nav--rolou .nav__interno {
+  max-width: calc(var(--larg) - 64px);
+  padding-inline: clamp(20px, 3vw, 34px);
+  background: rgba(13, 13, 13, 0.78);
+  backdrop-filter: blur(18px);
+  border-color: var(--linha);
+  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.65);
 }
 
 /* --- Marca --- */
@@ -56,18 +81,21 @@
 
 .nav__link {
   position: relative;
+  isolation: isolate;
   font-size: 0.86rem;
   color: var(--apagado);
-  padding-block: 4px;
+  padding: 7px 4px;
   transition: color 0.35s var(--suave);
 }
 
+/* Traço de hover: continua existindo, mas agora é só sobre o texto (não
+   compete com a pílula de seção ativa, que é outro sinal visual). */
 .nav__link::after {
   content: '';
   position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
+  left: 4px;
+  right: 4px;
+  bottom: 2px;
   height: 1px;
   background: var(--terra-clara);
   transform: scaleX(0);
@@ -81,6 +109,40 @@
 
 .nav__link:hover::after {
   transform: scaleX(1);
+}
+
+.nav__link--ativo {
+  color: var(--papel);
+}
+
+/* Não mostra o traço de hover no link que já está marcado como seção
+   atual — o sinal dele é a pílula, dois indicadores ao mesmo tempo
+   confundiriam mais do que ajudariam. */
+.nav__link--ativo::after {
+  display: none;
+}
+
+/* Pílula que desliza entre os links conforme a seção visível muda (ver
+   Nav.jsx: layoutId compartilhado entre os links faz o Framer Motion
+   animar a peça de uma posição pra outra, em vez de sumir e nascer). */
+.nav__indicador {
+  position: absolute;
+  inset: -2px -8px;
+  z-index: -1;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--terra-clara) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--terra-clara) 34%, transparent);
+}
+
+.nav__indicador--estatico {
+  /* Sem layoutId sob prefers-reduced-motion: a pílula aparece direto na
+     seção certa, sem animação de deslize. */
+  position: absolute;
+  inset: -2px -8px;
+  z-index: -1;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--terra-clara) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--terra-clara) 34%, transparent);
 }
 
 /* --- Ações --- */
@@ -106,17 +168,32 @@
   margin-right: -10px;
 }
 
-/* --- Menu de celular --- */
+/* --- Menu de celular (tela cheia) --- */
 .menu {
   position: fixed;
   inset: 0;
   z-index: 950;
-  background: var(--preto);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  background: var(--preto);
+}
+
+.menu__brasa {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  width: 120vmin;
+  height: 120vmin;
+  margin: -60vmin 0 0 -60vmin;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(232, 118, 59, 0.28), rgba(196, 80, 31, 0.1) 45%, transparent);
+  pointer-events: none;
+  animation: brasa-respira 6.5s ease-in-out infinite;
 }
 
 .menu__topo {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -124,31 +201,63 @@
   border-bottom: 1px solid var(--linha);
 }
 
+.menu__fechar svg {
+  transition: transform 0.4s var(--suave);
+}
+
+.menu__fechar:hover svg {
+  transform: rotate(90deg);
+}
+
 .menu__links {
-  flex: 1;
+  position: relative;
   display: flex;
+  flex: 1;
   flex-direction: column;
   justify-content: center;
-  gap: 4px;
+  gap: 2px;
 }
 
 .menu__link {
   display: flex;
   align-items: baseline;
   gap: 16px;
-  padding-block: 14px;
+  padding-block: 12px;
   border-bottom: 1px solid var(--linha);
   color: var(--papel);
 }
 
 .menu__link-n {
+  flex: none;
   font-family: var(--sans);
   font-size: 0.66rem;
   letter-spacing: 0.14em;
   color: var(--terra-clara);
 }
 
+.menu__link-mascara {
+  display: block;
+  overflow: hidden;
+  padding-block: 0.12em 0.08em;
+}
+
+.menu__link-texto {
+  display: block;
+  font-family: var(--display);
+  font-weight: 800;
+  font-stretch: var(--largura-display);
+  font-size: clamp(1.7rem, 8.4vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.menu__link:active .menu__link-texto {
+  color: var(--terra-clara);
+}
+
 .menu__rodape {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -161,6 +270,15 @@
 }
 
 @media (max-width: 960px) {
+  .nav--rolou {
+    padding-top: 0;
+  }
+
+  .nav--rolou .nav__interno {
+    max-width: 100%;
+    border-radius: 0;
+  }
+
   .nav__links,
   .nav__cta {
     display: none;

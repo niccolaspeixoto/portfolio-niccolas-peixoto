@@ -1,0 +1,107 @@
+.sistema__cabecalho {
+  align-items: end;
+  row-gap: 24px;
+  margin-bottom: clamp(48px, 7vw, 88px);
+}
+
+.sistema__cabecalho-titulo {
+  grid-column: 1 / span 7;
+}
+
+.sistema__cabecalho-texto {
+  grid-column: 9 / -1;
+}
+
+/* --------------------------------------------------------------------------
+   Bento: larga + estreita em cima, estreita + larga embaixo.
+   -------------------------------------------------------------------------- */
+.sistema__bento {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: clamp(12px, 1.4vw, 18px);
+}
+
+.modulo--larga {
+  grid-column: span 4;
+}
+
+.modulo--estreita {
+  grid-column: span 2;
+}
+
+.modulo__cartao {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--linha);
+  border-radius: 18px;
+  background: linear-gradient(180deg, var(--preto-3), var(--preto-2));
+  transition: border-color 0.4s var(--suave);
+}
+
+.modulo__cartao:hover {
+  border-color: var(--linha-forte);
+}
+
+/* Área do módulo vivo: a "tela" de cada célula. */
+.modulo__visual {
+  flex: 1;
+  min-height: 210px;
+  padding: clamp(18px, 2vw, 26px);
+  border-bottom: 1px solid var(--linha);
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(232, 118, 59, 0.08), transparent 60%),
+    rgba(0, 0, 0, 0.18);
+}
+
+.modulo__texto {
+  padding: clamp(18px, 2vw, 26px);
+}
+
+.modulo__titulo {
+  margin-bottom: 8px;
+  font-family: var(--display);
+  font-weight: 600;
+  font-stretch: 105%;
+  font-size: clamp(1.1rem, 1.5vw, 1.35rem);
+  letter-spacing: -0.018em;
+  color: var(--papel);
+  transition: color 0.4s var(--suave);
+}
+
+.modulo__cartao:hover .modulo__titulo {
+  color: var(--terra-clara);
+}
+
+.modulo__descricao {
+  max-width: 44ch;
+  font-size: 0.93rem;
+  line-height: 1.6;
+  color: var(--apagado);
+}
+
+@media (max-width: 1000px) {
+  .modulo--larga,
+  .modulo--estreita {
+    grid-column: span 3;
+  }
+}
+
+@media (max-width: 900px) {
+  .sistema__cabecalho-titulo,
+  .sistema__cabecalho-texto {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .modulo--larga,
+  .modulo--estreita {
+    grid-column: 1 / -1;
+  }
+
+  .modulo__visual {
+    min-height: 0;
+  }
+}
