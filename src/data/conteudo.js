@@ -196,8 +196,8 @@ export const problemas = {
 
 /* --- Por que um sistema -------------------------------------------------
    Contraste direto em vez de prova: o que muda no dia a dia com e sem
-   sistema, pareado item a item. Os cases reais (Arena Pro Beach, Thalita
-   Kuesteis, Alexandra Marques) moraram aqui antes; agora vivem dentro de
+   sistema, pareado item a item. Os cases reais (Thalita Kuesteis, Arena
+   Pro Beach) moraram aqui antes; agora vivem dentro de
    cada card em Projetos, com problema/solução/resultado completos — a
    prova não sumiu, só trocou de endereço. Aqui é argumento puro sobre a
    ferramenta, sem se apoiar em nenhum cliente específico. */
@@ -276,9 +276,8 @@ export const sistema = {
    `tamanho` controla a altura do card na galeria: 'alto' | 'medio' | 'baixo'.
    `caso`, quando existe, é o problema/solução/resultado real desse projeto
    (antes morava numa seção própria de cases) — fica escondido atrás de um
-   "ver o case completo" pra não pesar a galeria visual por padrão. Elite
-   Boots Store não tem `caso`: é projeto próprio, sem problema de cliente
-   real por trás pra descrever. */
+   "ver o case completo" pra não pesar a galeria visual por padrão. A ordem
+   da lista é a ordem na tela: o projeto mais forte vai primeiro. */
 export const projetos = {
   rotulo: 'Portfólio',
   titulo: 'Projetos construídos',
@@ -290,24 +289,6 @@ export const projetos = {
   fechar: 'Fechar',
   rotulosCase: { problema: 'O problema', solucao: 'O que foi construído', resultado: 'O que mudou' },
   itens: [
-    {
-      cliente: 'Arena Pro Beach',
-      nicho: 'Complexo esportivo',
-      tipo: 'Site institucional',
-      imagem: '/projetos/arena-pro-beach.jpg',
-      url: 'https://arenaprobeach.com/',
-      status: 'No ar',
-      tamanho: 'alto',
-      caso: {
-        problema:
-          'A arena existia só no Instagram. Quem queria reservar quadra precisava perguntar preço, horário, endereço e o que tinha na lanchonete: uma conversa inteira antes de qualquer reserva.',
-        solucao:
-          'Site institucional com quadras, aulas, cardápio, diferenciais e localização, e um botão de reserva que já abre o WhatsApp.',
-        resultado:
-          'A arena passou a ter endereço próprio na internet. A conversa no WhatsApp agora começa com o cliente já sabendo o que quer reservar.',
-        depoimento: null,
-      },
-    },
     {
       cliente: 'Thalita Kuesteis Studio',
       nicho: 'Estúdio de beleza',
@@ -327,32 +308,22 @@ export const projetos = {
       },
     },
     {
-      cliente: 'Alexandra Marques',
-      nicho: 'Consultoria tributária',
+      cliente: 'Arena Pro Beach',
+      nicho: 'Complexo esportivo',
       tipo: 'Site institucional',
-      imagem: '/projetos/alexandra-marques.jpg',
-      url: null,
-      status: 'Em implantação',
+      imagem: '/projetos/arena-pro-beach.jpg',
+      url: 'https://arenaprobeach.com/',
+      status: 'No ar',
       tamanho: 'alto',
       caso: {
         problema:
-          'Um serviço técnico e difícil de explicar em uma conversa solta. Quem chegava não entendia o tamanho do trabalho oferecido, e a consultoria virava uma explicação repetida a cada contato.',
+          'A arena existia só no Instagram. Quem queria reservar quadra precisava perguntar preço, horário, endereço e o que tinha na lanchonete: uma conversa inteira antes de qualquer reserva.',
         solucao:
-          'Site que apresenta as cinco frentes da consultoria em linguagem que o dono de empresa entende, com agendamento de diagnóstico pelo WhatsApp.',
+          'Site institucional com quadras, aulas, cardápio, diferenciais e localização, e um botão de reserva que já abre o WhatsApp.',
         resultado:
-          'A consultoria passou a ser apresentada por inteiro antes do primeiro contato, e a conversa começa no ponto que importa.',
+          'A arena passou a ter endereço próprio na internet. A conversa no WhatsApp agora começa com o cliente já sabendo o que quer reservar.',
         depoimento: null,
       },
-    },
-    {
-      cliente: 'Elite Boots Store',
-      nicho: 'Varejo esportivo',
-      tipo: 'Sistema de catálogo e estoque',
-      imagem: '/projetos/elite-boots.jpg',
-      url: 'https://elite-boots-store.vercel.app/',
-      status: 'Projeto próprio',
-      tamanho: 'alto',
-      caso: null,
     },
   ],
 };

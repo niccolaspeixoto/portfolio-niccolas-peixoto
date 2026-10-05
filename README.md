@@ -54,27 +54,22 @@ da nova imagem.
 
 1. Ponha o print em `public/projetos/` (JPEG, no máximo 1200px de largura).
 2. Acrescente o item em `projetos.itens`, em `src/data/conteudo.js`.
-3. O campo `tamanho` (`alto` | `medio` | `baixo`) define a proporção do card.
-
-A galeria é propositalmente irregular: o posicionamento de cada card na grade
-está em `src/sections/Projetos.css`, nos seletores `:nth-child()`. Ao passar de
-quatro projetos, acrescente as regras dos novos índices lá.
+3. A ordem em `itens` é a ordem na tela (o primeiro é o de destaque). Em telas
+   grandes a seção prende e os cards deslizam na horizontal; o comprimento do
+   percurso se ajusta sozinho ao número de projetos.
 
 ---
 
 ## Antes de publicar
 
-Três pontos que ficaram em aberto de propósito:
+Dois pontos que ficaram em aberto de propósito:
 
 1. **Nenhum depoimento é real ainda.** Os cases descrevem o que cada site
    entrega, não resultado medido. Quando um cliente te mandar uma frase ou um
    número (volume de mensagens, tempo de resposta, faturamento), preencha o
    campo `depoimento` do case — o bloco de citação já está pronto e só aparece
    quando existe conteúdo. Troque também o campo `resultado`.
-2. **Dois projetos estão marcados como "Em implantação"** porque os domínios
-   `thalitakuesteis.com.br` e `alexandramarques.com.br` ainda não respondem.
-   Quando entrarem no ar, mude `status` para `'No ar'` e preencha a `url`.
-3. **O domínio do site não está definido.** Quando existir, acrescente a tag
+2. **O domínio do site não está definido.** Quando existir, acrescente a tag
    `<link rel="canonical">` e as URLs absolutas de `og:url` e `og:image` no
    `index.html`.
 
