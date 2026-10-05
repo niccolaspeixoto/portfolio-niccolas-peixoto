@@ -241,12 +241,31 @@
   /* No celular o texto passa por cima do rosto inteiro, então o véu precisa
      ser bem mais fechado do que no desktop. */
   .hero__veu {
+    /* Rosto (≈10% a 55% da altura) quase sem véu; o escuro fecha só onde
+       o texto começa (≈60%). Com a hero em 100dvh o título fica embaixo,
+       então não precisa mais cobrir a foto inteira. */
     background: linear-gradient(
       180deg,
-      color-mix(in srgb, var(--preto) 46%, transparent) 0%,
-      color-mix(in srgb, var(--preto) 88%, transparent) 30%,
-      var(--preto) 62%
+      color-mix(in srgb, var(--preto) 22%, transparent) 0%,
+      color-mix(in srgb, var(--preto) 24%, transparent) 30%,
+      color-mix(in srgb, var(--preto) 46%, transparent) 50%,
+      color-mix(in srgb, var(--preto) 90%, transparent) 62%,
+      var(--preto) 74%
     );
+  }
+
+  /* Tela baixa (celular pequeno): o título sobe pra perto do rosto, então
+     o véu fecha mais cedo pra ele continuar legível. */
+  @media (max-height: 700px) {
+    .hero__veu {
+      background: linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--preto) 30%, transparent) 0%,
+        color-mix(in srgb, var(--preto) 45%, transparent) 28%,
+        color-mix(in srgb, var(--preto) 88%, transparent) 40%,
+        var(--preto) 55%
+      );
+    }
   }
 
   .hero__feixe-luz {
